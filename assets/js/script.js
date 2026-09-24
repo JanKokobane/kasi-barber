@@ -1,90 +1,197 @@
-'use strict';
+import './style.css'
 
+const services = {
+  'signature': { name: 'Signature Cut', duration: '45 min', price: 42 },
+  'skin-fade': { name: 'Skin Fade', duration: '50 min', price: 48 },
+  'beard': { name: 'Beard Sculpt', duration: '30 min', price: 30 },
+  'cut-beard': { name: 'Cut + Beard', duration: '75 min', price: 68 },
+}
 
+const times = ['9:00 AM', '10:30 AM', '12:00 PM', '1:30 PM', '3:00 PM', '4:30 PM', '5:30 PM']
 
-/**
- * add event on element
- */
+const state = {
+  service: 'signature',
+  date: new Date(Date.now() + 86400000),
+  time: '3:00 PM',
+}
 
-const addEventOnElem = function (elem, type, callback) {
-  if (elem.length > 1) {
-    for (let i = 0; i < elem.length; i++) {
-      elem[i].addEventListener(type, callback);
-    }
-  } else {
-    elem.addEventListener(type, callback);
+const page = document.body.dataset.page
+
+document.querySelector('.menu-button')?.addEventListener('click', () => {
+  const nav = document.querySelector('.desktop-nav')
+  nav.classList.toggle('open')
+})
+
+if (page === 'booking') initBooking()
+
+function initBooking() {
+  const preselect = new URLSearchParams(location.search).get('service')
+  if (preselect && services[preselect]) state.service = preselect
+
+  const els = {
+    serviceOptions: document.querySelectorAll('.service-option'),
+    dateOptions: document.querySelector('[data-date-options]'),
+    dateArrows: document.querySelectorAll('[data-date-move]'),
+    timeOptions: document.querySelectorAll('.time-option'),
+    continueBtn: document.querySelector('[data-open-details]'),
+    continueService: document.querySelector('[data-continue-service]'),
+    summaryService: document.querySelector('[data-summary-service]'),
+    summaryDuration: document.querySelector('[data-summary-duration]'),
+    summaryDate: document.querySelector('[data-summary-date]'),
+    summaryTime: document.querySelector('[data-summary-time]'),
+    summaryPrice: document.querySelector('[data-summary-price]'),
+    modal: document.querySelector('[data-modal-backdrop]'),
+    modalDescription: document.querySelector('[data-modal-description]'),
+    closeModal: document.querySelector('[data-close-modal]'),
+    form: document.querySelector('[data-booking-form]'),
+  }
+
+  els.serviceOptions.forEach(btn => btn.addEventListener('click', () => {
+    state.service = btn.dataset.service
+    syncUI(els)
+  }))
+
+  els.timeOptions.forEach(btn => btn.addEventListener('click', () => {
+    state.time = btn.dataset.time
+    syncUI(els)
+  }))
+
+  els.dateArrows.forEach(btn => btn.addEventListener('click', () => {
+    state.date.setDate(state.date.getDate() + Number(btn.dataset.dateMove))
+    renderDates(els)
+    syncUI(els)
+  }))
+
+  els.continueBtn.addEventListener('click', () => {
+    els.modalDescription.textContent = `We will hold your spot for ${services[state.service].name} on ${state.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at ${state.time}.`
+    els.modal.classList.add('visible')
+  })
+
+  els.closeModal.addEventListener('click', () => els.modal.classList.remove('visible'))
+  els.modal.addEventListener('click', e => { if (e.target === els.modal) els.modal.classList.remove('visible') })
+
+  els.form.addEventListener('submit', e => {
+    e.preventDefault()
+    els.modal.classList.remove('visible')
+    showConfirmation()
+  })
+
+  renderDates(els)
+  syncUI(els)
+}
+
+function renderDates(els) {
+  els.dateOptions.replaceChildren()
+  for (let i = -2; i <= 2; i++) {
+    const d = new Date(state.date)
+    d.setDate(state.date.getDate() + i)
+    const btn = document.createElement('button')
+    btn.className = 'date-option' + (d.toDateString() === state.date.toDateString() ? ' selected' : '')
+    btn.dataset.date = d.toISOString()
+    const dayLabel = document.createElement('small')
+    dayLabel.textContent = d.toLocaleDateString('en-US', { weekday: 'short' })
+    const dayNum = document.createElement('strong')
+    dayNum.textContent = d.getDate()
+    btn.append(dayLabel, dayNum)
+    btn.addEventListener('click', () => {
+      state.date = new Date(btn.dataset.date)
+      renderDates(els)
+      syncUI(els)
+    })
+    els.dateOptions.appendChild(btn)
   }
 }
 
-
-
-/**
- * navbar toggle
- */
-
-const navbar = document.querySelector("[data-navbar]");
-const navToggler = document.querySelector("[data-nav-toggler]");
-const navLinks = document.querySelectorAll("[data-nav-link]");
-
-const toggleNavbar = () => navbar.classList.toggle("active");
-
-addEventOnElem(navToggler, "click", toggleNavbar);
-
-const closeNavbar = () => navbar.classList.remove("active");
-
-addEventOnElem(navLinks, "click", closeNavbar);
-
-
-
-/**
- * header & back top btn active when scroll down to 100px
- */
-
-const header = document.querySelector("[data-header]");
-const backTopBtn = document.querySelector("[data-back-top-btn]");
-
-const headerActive = function () {
-  if (window.scrollY > 100) {
-    header.classList.add("active");
-    backTopBtn.classList.add("active");
-  } else {
-    header.classList.remove("active");
-    backTopBtn.classList.remove("active");
-  }
+function syncUI(els) {
+  const svc = services[state.service]
+  els.serviceOptions.forEach(btn => btn.classList.toggle('selected', btn.dataset.service === state.service))
+  els.timeOptions.forEach(btn => btn.classList.toggle('selected', btn.dataset.time === state.time))
+  els.continueService.textContent = svc.name
+  els.summaryService.textContent = svc.name
+  els.summaryDuration.textContent = svc.duration
+  els.summaryDate.textContent = state.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  els.summaryTime.textContent = state.time
+  els.summaryPrice.textContent = `$${svc.price}`
 }
 
-addEventOnElem(window, "scroll", headerActive);
+function showConfirmation() {
+  const svc = services[state.service]
+  const start = parseStartTime(state.date, state.time)
+  const end = new Date(start.getTime() + parseInt(svc.duration, 10) * 60000)
 
+  const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Northline Barbers — ' + svc.name)}&dates=${fmtCal(start)}/${fmtCal(end)}&details=${encodeURIComponent('Your appointment at Northline Barbers. See you in the chair.')}&location=${encodeURIComponent('14 Northline Road, Easton, NY 10012')}`
 
+  const backdrop = document.createElement('div')
+  backdrop.className = 'modal-backdrop visible'
+  backdrop.dataset.confirmationModal = ''
 
-/**
- * filter function
- */
+  const modal = document.createElement('div')
+  modal.className = 'booking-modal confirmation-modal'
+  modal.setAttribute('role', 'dialog')
+  modal.setAttribute('aria-modal', 'true')
 
-const filterBtns = document.querySelectorAll("[data-filter-btn]");
-const filterItems = document.querySelectorAll("[data-filter]");
+  const checkmark = document.createElement('div')
+  checkmark.className = 'success-icon'
+  checkmark.textContent = '✓'
 
-let lastClickedFilterBtn = filterBtns[0];
+  const eyebrow = document.createElement('p')
+  eyebrow.className = 'eyebrow'
+  eyebrow.textContent = 'YOU ARE ALL SET'
 
-const filter = function () {
-  lastClickedFilterBtn.classList.remove("active");
-  this.classList.add("active");
-  lastClickedFilterBtn = this;
+  const heading = document.createElement('h2')
+  heading.append('See you in', document.createElement('br'))
+  const italic = document.createElement('em')
+  italic.textContent = 'the chair.'
+  heading.appendChild(italic)
 
-  for (let i = 0; i < filterItems.length; i++) {
-    if (this.dataset.filterBtn === filterItems[i].dataset.filter ||
-      this.dataset.filterBtn === "all") {
+  const desc = document.createElement('p')
+  desc.className = 'modal-description'
+  desc.textContent = `Your ${svc.name} is booked for ${state.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at ${state.time}.`
 
-      filterItems[i].style.display = "block";
-      filterItems[i].classList.add("active");
+  const actions = document.createElement('div')
+  actions.className = 'calendar-actions'
 
-    } else {
+  const googleLink = document.createElement('a')
+  googleLink.className = 'button button-dark full-button'
+  googleLink.href = googleUrl
+  googleLink.target = '_blank'
+  googleLink.rel = 'noreferrer'
+  googleLink.textContent = 'Add to Google Calendar'
 
-      filterItems[i].style.display = "none";
-      filterItems[i].classList.remove("active");
+  const icsButton = document.createElement('button')
+  icsButton.className = 'button button-outline full-button'
+  icsButton.dataset.downloadIcs = ''
+  icsButton.textContent = 'Add Apple Calendar file'
 
-    }
-  }
+  actions.append(googleLink, icsButton)
+
+  const backLink = document.createElement('a')
+  backLink.className = 'text-link centered-link'
+  backLink.href = '/index.html'
+  backLink.textContent = 'Back to home →'
+
+  modal.append(checkmark, eyebrow, heading, desc, actions, backLink)
+  backdrop.appendChild(modal)
+  document.body.appendChild(backdrop)
+
+  icsButton.addEventListener('click', () => {
+    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${fmtCal(start)}\nDTEND:${fmtCal(end)}\nSUMMARY:Northline Barbers — ${svc.name}\nLOCATION:14 Northline Road, Easton, NY 10012\nEND:VEVENT\nEND:VCALENDAR`
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }))
+    link.download = 'northline-appointment.ics'
+    link.click()
+    URL.revokeObjectURL(link.href)
+  })
 }
 
-addEventOnElem(filterBtns, "click", filter);
+function parseStartTime(date, timeStr) {
+  const [time, meridiem] = timeStr.split(' ')
+  const [hours, minutes] = time.split(':').map(Number)
+  const d = new Date(date)
+  d.setHours(hours % 12 + (meridiem === 'PM' ? 12 : 0), minutes, 0, 0)
+  return d
+}
+
+function fmtCal(date) {
+  return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
+}

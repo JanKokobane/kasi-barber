@@ -1,15 +1,227 @@
+const serviceCategories = {
+  'signature': {
+    id: 'signature',
+    name: 'Signature Cut',
+    eyebrow: '01 · SIGNATURE CUT',
+    description: 'The Northline standard. Considered cuts, proper consultation, precision scissors and clippers, and a warm hot towel finish.',
+    styles: [
+      {
+        id: 'sig-classic',
+        name: 'Classic Gentleman Cut',
+        price: 42,
+        duration: '45 min',
+        image: 'https://images.pexels.com/photos/1813272/pexels-photo-1813272.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Timeless scissor and clipper cut, natural side parting, tapered neck, finished with a warm hot towel and organic styling balm.'
+      },
+      {
+        id: 'sig-crop',
+        name: 'Textured Modern Crop',
+        price: 44,
+        duration: '45 min',
+        image: 'https://images.pexels.com/photos/2076930/pexels-photo-2076930.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Forward textured crop with clean shear work, blunt micro-fringe, and low natural taper. Easy effortless finger-combed style.'
+      },
+      {
+        id: 'sig-taper',
+        name: 'Executive Scissor Taper',
+        price: 45,
+        duration: '45 min',
+        image: 'https://images.pexels.com/photos/897262/pexels-photo-897262.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Hand-crafted all-scissor cut tailored to your natural growth patterns. Soft graduated sides with natural movement.'
+      },
+      {
+        id: 'sig-pompadour',
+        name: 'Classic Pompadour',
+        price: 44,
+        duration: '45 min',
+        image: 'https://images.pexels.com/photos/1570807/pexels-photo-1570807.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Structured silhouette with rich crown volume, clean taper graduation, and high-hold matte finish.'
+      }
+    ]
+  },
+  'skin-fade': {
+    id: 'skin-fade',
+    name: 'Skin Fade',
+    eyebrow: '02 · SKIN FADE',
+    description: 'A seamless, blurry fade blended cleanly to skin with meticulous foil or razor work and razor-sharp edge lines.',
+    styles: [
+      {
+        id: 'fade-low',
+        name: 'Low Drop Fade',
+        price: 48,
+        duration: '50 min',
+        image: 'https://images.pexels.com/photos/1319460/pexels-photo-1319460.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Smooth fade dipping naturally around the ear and nape, leaving substantial density and weight across the upper sides.'
+      },
+      {
+        id: 'fade-mid',
+        name: 'Mid Skin Fade',
+        price: 48,
+        duration: '50 min',
+        image: 'https://images.pexels.com/photos/2076931/pexels-photo-2076931.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'The balanced classic. Transition starts right at temple level down to bare skin with an ultra-clean contrast.'
+      },
+      {
+        id: 'fade-high',
+        name: 'High & Tight Fade',
+        price: 50,
+        duration: '50 min',
+        image: 'https://images.pexels.com/photos/1805600/pexels-photo-1805600.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Crisp high transition beginning high on the temples for an athletic, ultra-clean silhouette.'
+      },
+      {
+        id: 'fade-taper',
+        name: 'Temple & Neck Taper Fade',
+        price: 46,
+        duration: '45 min',
+        image: 'https://images.pexels.com/photos/2809652/pexels-photo-2809652.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Subtle fade isolated strictly to the sideburns and neckline, preserving natural full body through the sides and crown.'
+      }
+    ]
+  },
+  'beard': {
+    id: 'beard',
+    name: 'Beard Sculpt',
+    eyebrow: '03 · BEARD SCULPT',
+    description: 'Precision shape, crisp cheek line-up, trim, hot towel massage, and conditioning beard oils.',
+    styles: [
+      {
+        id: 'beard-sculpt',
+        name: 'Full Beard Sculpt & Condition',
+        price: 30,
+        duration: '30 min',
+        image: 'https://images.pexels.com/photos/2531553/pexels-photo-2531553.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Complete shape-up, clipper de-bulking, hot towel steam, cheek razor alignment, and organic cedarwood oil treatment.'
+      },
+      {
+        id: 'beard-lineup',
+        name: 'Razor Edge Line-Up',
+        price: 26,
+        duration: '25 min',
+        image: 'https://images.pexels.com/photos/3998429/pexels-photo-3998429.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Sharp straight-razor detailing along cheeks and neckline with pre-shave oil and cooling post-shave tonic.'
+      },
+      {
+        id: 'beard-stubble',
+        name: 'Short Stubble Contour',
+        price: 25,
+        duration: '25 min',
+        image: 'https://images.pexels.com/photos/1898555/pexels-photo-1898555.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Uniform gradient trim keeping heavy stubble even and sculpted along jawline and lip lines.'
+      },
+      {
+        id: 'beard-taper',
+        name: 'Tapered Heavy Beard',
+        price: 34,
+        duration: '35 min',
+        image: 'https://images.pexels.com/photos/1453005/pexels-photo-1453005.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Length retention sculpt with tapered sideburn connection, mustache shaping, and deep balm hydration.'
+      }
+    ]
+  },
+  'cut-beard': {
+    id: 'cut-beard',
+    name: 'Cut + Beard',
+    eyebrow: '04 · CUT + BEARD RESET',
+    description: 'The full Northline experience. Haircut of your choice paired with a comprehensive hot towel beard sculpt.',
+    styles: [
+      {
+        id: 'combo-reset',
+        name: 'Full Reset (Signature + Beard Sculpt)',
+        price: 68,
+        duration: '75 min',
+        image: 'https://images.pexels.com/photos/3037244/pexels-photo-3037244.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Our most requested service. Classic tailored haircut paired with a complete hot towel beard trim and conditioning.'
+      },
+      {
+        id: 'combo-fade-beard',
+        name: 'Skin Fade + Line-Up Beard',
+        price: 72,
+        duration: '80 min',
+        image: 'https://images.pexels.com/photos/2076930/pexels-photo-2076930.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Seamless skin fade blended directly into a sharp razor-lined beard sculpt. Clean, sharp, top to bottom.'
+      },
+      {
+        id: 'combo-executive',
+        name: 'Executive Grooming Refresh',
+        price: 75,
+        duration: '80 min',
+        image: 'https://images.pexels.com/photos/7518739/pexels-photo-7518739.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Scissor cut, facial hot towel massage, detailed beard sculpting, and premium hair styling.'
+      }
+    ]
+  },
+  'kids-cut': {
+    id: 'kids-cut',
+    name: 'Kids Cut Signature',
+    eyebrow: '05 · KIDS CUT SIGNATURE',
+    description: 'Patient, friendly barbers, low-buzz clippers, and great cuts for under-12s with a lollipop finish.',
+    styles: [
+      {
+        id: 'kids-gentleman',
+        name: 'Little Gentleman',
+        price: 28,
+        duration: '30 min',
+        image: 'https://images.pexels.com/photos/3771639/pexels-photo-3771639.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Classic side part with scissor finish, natural ear contour, and soft neck taper. Smart and comfortable.'
+      },
+      {
+        id: 'kids-textured-crop',
+        name: 'Textured Mini Crop',
+        price: 28,
+        duration: '30 min',
+        image: 'https://images.pexels.com/photos/1619801/pexels-photo-1619801.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Modern textured crop on top with a gentle low taper. Effortless school-day look with natural texture.'
+      },
+      {
+        id: 'kids-taper-fade',
+        name: 'Clean Taper Fade',
+        price: 30,
+        duration: '35 min',
+        image: 'https://images.pexels.com/photos/3775156/pexels-photo-3775156.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Crisp edges with a gentle fade at the temples and neckline, keeping natural fullness through the crown.'
+      },
+      {
+        id: 'kids-natural-curls',
+        name: 'Natural Curls High-Top',
+        price: 32,
+        duration: '35 min',
+        image: 'https://images.pexels.com/photos/1231230/pexels-photo-1231230.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Sculpted curl silhouette with precision temple lines and hydrating curl definition.'
+      },
+      {
+        id: 'kids-first-cut',
+        name: 'First Cut Milestone',
+        price: 26,
+        duration: '35 min',
+        image: 'https://images.pexels.com/photos/2065195/pexels-photo-2065195.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        description: 'Extra gentle first milestone haircut for toddlers. Quiet tools, warm cape, keepsake lock envelope and lollipop.'
+      }
+    ]
+  }
+}
+
+// Flat map of all styles for instant lookups
+const allStylesMap = {}
+Object.values(serviceCategories).forEach(cat => {
+  cat.styles.forEach(s => {
+    allStylesMap[s.id] = { ...s, categoryId: cat.id, categoryName: cat.name }
+  })
+})
+
 const services = {
   'signature': { name: 'Signature Cut', duration: '45 min', price: 42 },
   'skin-fade': { name: 'Skin Fade', duration: '50 min', price: 48 },
   'beard': { name: 'Beard Sculpt', duration: '30 min', price: 30 },
   'cut-beard': { name: 'Cut + Beard', duration: '75 min', price: 68 },
-  'kids-cut': { name: 'Kids Cut', duration: '30 min', price: 28 },
+  'kids-cut': { name: 'Kids Cut Signature', duration: '30 min', price: 28 },
 }
 
 const times = ['9:00 AM', '10:30 AM', '12:00 PM', '1:30 PM', '3:00 PM', '4:30 PM', '5:30 PM']
 
 const state = {
   service: 'signature',
+  chosenStyle: null,
   barber: 'No preference',
   date: new Date(Date.now() + 86400000),
   time: '3:00 PM',
@@ -24,6 +236,7 @@ document.querySelector('.menu-button')?.addEventListener('click', () => {
 
 if (page === 'booking') initBooking()
 if (page === 'home') initPromo()
+initServicesMenu()
 
 function initPromo() {
   const modal = document.querySelector('[data-promo-modal]')
@@ -44,9 +257,155 @@ function initPromo() {
   })
 }
 
+function initServicesMenu() {
+  const isSubpage = window.location.pathname.includes('/assets/components/')
+  const serviceStylesPage = isSubpage ? './service-styles.html' : './assets/components/service-styles.html'
+
+  const openButtons = document.querySelectorAll('[data-open-service-menu], [data-open-kids-menu], .kids-menu-trigger')
+  openButtons.forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.preventDefault()
+      const category = btn.dataset.serviceCategory || (btn.hasAttribute('data-open-kids-menu') ? 'kids-cut' : 'signature')
+      window.location.href = `${serviceStylesPage}?category=${category}`
+    })
+  })
+
+  // Initialize any studios (on dedicated full page service-styles.html)
+  document.querySelectorAll('[data-service-studio], [data-kids-studio]').forEach(setupServiceStudio)
+}
+
+function setupServiceStudio(studio) {
+  let activeCategoryId = 'signature'
+  let activeStyleId = serviceCategories['signature'].styles[0].id
+
+  const eyebrowEl = studio.querySelector('[data-menu-eyebrow]')
+  const headingEl = studio.querySelector('[data-menu-heading]')
+  const descEl = studio.querySelector('[data-menu-desc]')
+  const navList = studio.querySelector('[data-styles-nav]')
+  const activeCard = studio.querySelector('[data-active-style-card]')
+  const previewImg = studio.querySelector('[data-preview-img]') || studio.querySelector('[data-turntable-img]')
+  const previewTag = studio.querySelector('[data-preview-tag]')
+  const previewCaption = studio.querySelector('[data-preview-caption]')
+
+  const isSubpage = window.location.pathname.includes('/assets/components/')
+  const bookingBasePath = isSubpage ? './booking.html' : './assets/components/booking.html'
+
+  function setCategory(catId) {
+    if (!serviceCategories[catId]) return
+    activeCategoryId = catId
+    const cat = serviceCategories[catId]
+    activeStyleId = cat.styles[0].id
+
+    if (eyebrowEl) eyebrowEl.textContent = cat.eyebrow
+    if (headingEl) headingEl.innerHTML = `${cat.name} <em>Styles.</em>`
+    if (descEl) descEl.textContent = cat.description
+
+    renderStylesNav()
+    renderActiveStyle()
+  }
+
+  function renderStylesNav() {
+    if (!navList) return
+    const cat = serviceCategories[activeCategoryId]
+    if (!cat) return
+
+    navList.innerHTML = cat.styles.map(style => `
+      <button type="button" class="style-nav-item ${style.id === activeStyleId ? 'active' : ''}" data-style-select="${style.id}">
+        <div class="style-nav-info">
+          <strong>${style.name}</strong>
+          <small>${style.description}</small>
+        </div>
+        <span class="style-nav-price">R${style.price}</span>
+      </button>
+    `).join('')
+
+    navList.querySelectorAll('[data-style-select]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectStyle(btn.dataset.styleSelect)
+      })
+    })
+  }
+
+  function renderActiveStyle() {
+    const cat = serviceCategories[activeCategoryId]
+    const style = cat?.styles.find(s => s.id === activeStyleId) || cat?.styles[0]
+    if (!style) return
+
+    if (previewImg) {
+      previewImg.style.opacity = '0.35'
+      previewImg.src = style.image
+      setTimeout(() => {
+        previewImg.style.opacity = '1'
+      }, 80)
+    }
+
+    if (previewTag) previewTag.textContent = cat.name
+    if (previewCaption) {
+      previewCaption.innerHTML = `<span>${style.name}</span><span>R${style.price}</span>`
+    }
+
+    if (activeCard) {
+      activeCard.innerHTML = `
+        <div class="active-style-meta">
+          <div>
+            <span class="eyebrow" style="color:var(--orange);margin-bottom:4px;display:block;">${cat.name}</span>
+            <h3>${style.name}</h3>
+          </div>
+          <span class="active-style-price">R${style.price}</span>
+        </div>
+        <p class="active-style-desc">${style.description}</p>
+        <a class="button button-accent full-button book-style-cta" href="${bookingBasePath}?service=${cat.id}&style=${style.id}">
+          Select ${style.name} & Book Chair (R${style.price})
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h13M13 6l6 6-6 6" />
+          </svg>
+        </a>
+      `
+    }
+  }
+
+  function selectStyle(styleId) {
+    const cat = serviceCategories[activeCategoryId]
+    const found = cat?.styles.find(s => s.id === styleId)
+    if (!found) return
+    activeStyleId = styleId
+
+    if (navList) {
+      navList.querySelectorAll('.style-nav-item').forEach(item => {
+        item.classList.toggle('active', item.dataset.styleSelect === styleId)
+      })
+    }
+
+    renderActiveStyle()
+  }
+
+  studio._openCategory = (catId) => {
+    setCategory(catId || 'signature')
+  }
+
+  // Check URL param if page loaded with category
+  const urlCat = new URLSearchParams(window.location.search).get('category')
+  setCategory(urlCat && serviceCategories[urlCat] ? urlCat : 'signature')
+}
+
 function initBooking() {
-  const preselect = new URLSearchParams(location.search).get('service')
-  if (preselect && services[preselect]) state.service = preselect
+  const urlParams = new URLSearchParams(location.search)
+  const serviceParam = urlParams.get('service')
+  const styleParam = urlParams.get('style')
+
+  if (styleParam && allStylesMap[styleParam]) {
+    const styleObj = allStylesMap[styleParam]
+    state.chosenStyle = styleObj
+    state.service = styleObj.categoryId
+  } else if (serviceParam && serviceCategories[serviceParam]) {
+    state.service = serviceParam
+    const cat = serviceCategories[serviceParam]
+    state.chosenStyle = { ...cat.styles[0], categoryId: cat.id, categoryName: cat.name }
+  } else {
+    state.service = 'signature'
+    const cat = serviceCategories['signature']
+    state.chosenStyle = { ...cat.styles[0], categoryId: cat.id, categoryName: cat.name }
+  }
 
   const els = {
     serviceOptions: document.querySelectorAll('.service-option'),
@@ -66,11 +425,70 @@ function initBooking() {
     modalDescription: document.querySelector('[data-modal-description]'),
     closeModal: document.querySelector('[data-close-modal]'),
     form: document.querySelector('[data-booking-form]'),
+    subStylesPanel: document.querySelector('[data-sub-styles-panel]'),
+    subStylesGrid: document.querySelector('[data-style-options-grid]'),
+    subStylesEyebrow: document.querySelector('[data-sub-styles-eyebrow]'),
+    subStylesGalleryLink: document.querySelector('[data-sub-styles-gallery-link]'),
+  }
+
+  function renderSubStyles() {
+    if (!els.subStylesPanel || !els.subStylesGrid) return
+    const cat = serviceCategories[state.service]
+    if (!cat) return
+
+    if (els.subStylesEyebrow) {
+      els.subStylesEyebrow.textContent = `${cat.name.toUpperCase()} STYLES · SELECT YOUR VARIATION`
+    }
+
+    if (els.subStylesGalleryLink) {
+      els.subStylesGalleryLink.href = `./service-styles.html?category=${cat.id}`
+    }
+
+    if (!state.chosenStyle || state.chosenStyle.categoryId !== cat.id) {
+      state.chosenStyle = { ...cat.styles[0], categoryId: cat.id, categoryName: cat.name }
+    }
+
+    els.subStylesGrid.innerHTML = cat.styles.map(style => {
+      const isSelected = state.chosenStyle && state.chosenStyle.id === style.id
+      return `
+        <button type="button" class="sub-style-card ${isSelected ? 'selected' : ''}" data-style-id="${style.id}">
+          <div class="sub-style-body">
+            <div class="sub-style-header">
+              <strong>${style.name}</strong>
+              <b>R${style.price}</b>
+            </div>
+            <div class="sub-style-meta-line">
+              <span class="sub-style-duration">${style.duration}</span>
+              ${isSelected ? '<span class="sub-style-badge">Selected</span>' : ''}
+            </div>
+            <small>${style.description}</small>
+          </div>
+        </button>
+      `
+    }).join('')
+
+    els.subStylesGrid.querySelectorAll('[data-style-id]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const styleId = btn.dataset.styleId
+        const found = cat.styles.find(s => s.id === styleId)
+        if (found) {
+          state.chosenStyle = { ...found, categoryId: cat.id, categoryName: cat.name }
+          renderSubStyles()
+          syncUI(els)
+        }
+      })
+    })
   }
 
   els.serviceOptions.forEach(btn => btn.addEventListener('click', () => {
-    state.service = btn.dataset.service
-    syncUI(els)
+    const newService = btn.dataset.service
+    if (serviceCategories[newService]) {
+      state.service = newService
+      const cat = serviceCategories[newService]
+      state.chosenStyle = { ...cat.styles[0], categoryId: cat.id, categoryName: cat.name }
+      renderSubStyles()
+      syncUI(els)
+    }
   }))
 
   els.timeOptions.forEach(btn => btn.addEventListener('click', () => {
@@ -89,15 +507,18 @@ function initBooking() {
     syncUI(els)
   }))
 
-  els.continueBtn.addEventListener('click', () => {
-    els.modalDescription.textContent = `We will hold your spot for ${services[state.service].name} on ${state.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at ${state.time}.`
+  els.continueBtn?.addEventListener('click', () => {
+    const cat = serviceCategories[state.service]
+    const chosen = state.chosenStyle || (cat ? cat.styles[0] : null)
+    const displayName = chosen ? `${cat.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
+    els.modalDescription.textContent = `We will hold your spot for ${displayName} on ${state.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at ${state.time}.`
     els.modal.classList.add('visible')
   })
 
-  els.closeModal.addEventListener('click', () => els.modal.classList.remove('visible'))
-  els.modal.addEventListener('click', e => { if (e.target === els.modal) els.modal.classList.remove('visible') })
+  els.closeModal?.addEventListener('click', () => els.modal.classList.remove('visible'))
+  els.modal?.addEventListener('click', e => { if (e.target === els.modal) els.modal.classList.remove('visible') })
 
-  els.form.addEventListener('submit', e => {
+  els.form?.addEventListener('submit', e => {
     e.preventDefault()
     const formData = new FormData(els.form)
     state.customerName = formData.get('name')
@@ -107,10 +528,12 @@ function initBooking() {
   })
 
   renderDates(els)
+  renderSubStyles()
   syncUI(els)
 }
 
 function renderDates(els) {
+  if (!els.dateOptions) return
   els.dateOptions.replaceChildren()
   for (let i = -2; i <= 2; i++) {
     const d = new Date(state.date)
@@ -133,28 +556,39 @@ function renderDates(els) {
 }
 
 function syncUI(els) {
-  const svc = services[state.service]
+  const cat = serviceCategories[state.service]
+  const chosen = state.chosenStyle || (cat ? cat.styles[0] : null)
+
+  const displayName = chosen ? `${cat.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
+  const displayDuration = chosen ? chosen.duration : (services[state.service]?.duration || '45 min')
+  const displayPrice = chosen ? `R${chosen.price}` : `R${services[state.service]?.price || 42}`
+  const buttonLabel = chosen ? `${chosen.name} (${displayPrice})` : displayName
+
   els.serviceOptions.forEach(btn => btn.classList.toggle('selected', btn.dataset.service === state.service))
   els.barberOptions.forEach(btn => {
     const label = btn.dataset.barber === 'any' ? 'No preference' : btn.dataset.barber
     btn.classList.toggle('selected', label === state.barber)
   })
   els.timeOptions.forEach(btn => btn.classList.toggle('selected', btn.dataset.time === state.time))
-  els.continueService.textContent = svc.name
-  els.summaryService.textContent = svc.name
-  els.summaryBarber.textContent = state.barber
-  els.summaryDuration.textContent = svc.duration
-  els.summaryDate.textContent = state.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
-  els.summaryTime.textContent = state.time
-  els.summaryPrice.textContent = `R${svc.price}`
+
+  if (els.continueService) els.continueService.textContent = buttonLabel
+  if (els.summaryService) els.summaryService.textContent = displayName
+  if (els.summaryBarber) els.summaryBarber.textContent = state.barber
+  if (els.summaryDuration) els.summaryDuration.textContent = displayDuration
+  if (els.summaryDate) els.summaryDate.textContent = state.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
+  if (els.summaryTime) els.summaryTime.textContent = state.time
+  if (els.summaryPrice) els.summaryPrice.textContent = displayPrice
 }
 
 function showConfirmation() {
-  const svc = services[state.service]
+  const cat = serviceCategories[state.service]
+  const chosen = state.chosenStyle || (cat ? cat.styles[0] : null)
+  const displayName = chosen ? `${cat.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
+  const durationMin = chosen ? parseInt(chosen.duration, 10) : parseInt(services[state.service]?.duration || '45', 10)
   const start = parseStartTime(state.date, state.time)
-  const end = new Date(start.getTime() + parseInt(svc.duration, 10) * 60000)
+  const end = new Date(start.getTime() + durationMin * 60000)
 
-  const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Northline Barbers — ' + svc.name)}&dates=${fmtCal(start)}/${fmtCal(end)}&details=${encodeURIComponent('Booking for ' + state.customerName + ' (' + state.customerWhatsapp + '). Barber: ' + state.barber + '. Your appointment at Northline Barbers. See you in the chair.')}&location=${encodeURIComponent('14 Northline Road, Easton, NY 10012')}`
+  const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Northline Barbers — ' + displayName)}&dates=${fmtCal(start)}/${fmtCal(end)}&details=${encodeURIComponent('Booking for ' + state.customerName + ' (' + state.customerWhatsapp + '). Barber: ' + state.barber + '. Your appointment at Northline Barbers. See you in the chair.')}&location=${encodeURIComponent('14 Northline Road, Easton, NY 10012')}`
 
   const backdrop = document.createElement('div')
   backdrop.className = 'modal-backdrop visible'
@@ -181,7 +615,7 @@ function showConfirmation() {
 
   const desc = document.createElement('p')
   desc.className = 'modal-description'
-  desc.textContent = `Your ${svc.name} with ${state.barber === 'No preference' ? 'the next available barber' : state.barber} is booked for ${state.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at ${state.time}. A confirmation with your booking details has been sent to ${state.customerWhatsapp}.`
+  desc.textContent = `Your ${displayName} with ${state.barber === 'No preference' ? 'the next available barber' : state.barber} is booked for ${state.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at ${state.time}. A confirmation with your booking details has been sent to ${state.customerWhatsapp}.`
 
   const actions = document.createElement('div')
   actions.className = 'calendar-actions'
@@ -210,7 +644,7 @@ function showConfirmation() {
   document.body.appendChild(backdrop)
 
   icsButton.addEventListener('click', () => {
-    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${fmtCal(start)}\nDTEND:${fmtCal(end)}\nSUMMARY:Northline Barbers — ${svc.name}\nLOCATION:14 Northline Road, Easton, NY 10012\nDESCRIPTION:Booking for ${state.customerName} (${state.customerWhatsapp}). Barber: ${state.barber}\nEND:VEVENT\nEND:VCALENDAR`
+    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${fmtCal(start)}\nDTEND:${fmtCal(end)}\nSUMMARY:Northline Barbers — ${displayName}\nLOCATION:14 Northline Road, Easton, NY 10012\nDESCRIPTION:Booking for ${state.customerName} (${state.customerWhatsapp}). Barber: ${state.barber}\nEND:VEVENT\nEND:VCALENDAR`
     const link = document.createElement('a')
     link.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }))
     link.download = 'northline-appointment.ics'

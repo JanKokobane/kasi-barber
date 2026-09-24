@@ -11,20 +11,20 @@
 
 <body data-page="booking">
     <header class="site-header">
-        <a class="brand" href="/index.html" aria-label="Northline Barbers home">
+        <a class="brand" href="../../index.html" aria-label="Northline Barbers home">
             <span class="brand-mark">N</span>
             <span class="brand-text">Northline<br><em>Barbers</em></span>
         </a>
 
         <nav class="desktop-nav" aria-label="Main navigation">
             <a class="nav-link" href="../../index.html">Home</a>
-            <a class="nav-link" href="/services.html">Services</a>
-            <a class="nav-link" href="/about.html">About</a>
-            <a class="nav-link" href="/contact.html">Contact</a>
+            <a class="nav-link" href="./services.html">Services</a>
+            <a class="nav-link" href="./about.html">About</a>
+            <a class="nav-link" href="./contact.html">Contact</a>
         </nav>
 
         <div class="header-actions">
-            <a class="button button-dark header-book" href="/booking.html">
+            <a class="button button-dark header-book" href="./booking.html">
                 Book a chair
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2"
@@ -49,7 +49,7 @@
             </div>
             <div class="booking-hours">
                 <p class="eyebrow">OPENING HOURS</p>
-                <p>Tue–Fri · 9:00 — 19:00<br>Sat · 9:00 — 16:00</p><a class="text-link" href="/contact.html">Need a
+                <p>Tue–Fri · 9:00 — 19:00<br>Sat · 9:00 — 16:00</p><a class="text-link" href="./contact.html">Need a
                     hand? <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M5 12h13M13 6l6 6-6 6" />
                     </svg></a>
@@ -65,15 +65,27 @@
                 </div>
                 <div class="service-options"><button class="service-option"
                         data-service="signature"><span><strong>Signature Cut</strong><small>45 min · Consultation,
-                                clipper or scissor cut, hot towel finish.</small></span><b>$42</b></button><button
+                                clipper or scissor cut, hot towel finish.</small></span><b>R42</b></button><button
                         class="service-option" data-service="skin-fade"><span><strong>Skin Fade</strong><small>50 min ·
-                                A tight, seamless fade with a clean finish.</small></span><b>$48</b></button><button
+                                A tight, seamless fade with a clean finish.</small></span><b>R48</b></button><button
                         class="service-option" data-service="beard"><span><strong>Beard Sculpt</strong><small>30 min ·
                                 Shape, line-up, trim and conditioning
-                                treatment.</small></span><b>$30</b></button><button class="service-option"
+                                treatment.</small></span><b>R30</b></button><button class="service-option"
                         data-service="cut-beard"><span><strong>Cut + Beard</strong><small>75 min · The complete
-                                Northline reset, top to bottom.</small></span><b>$68</b></button></div>
+                                Northline reset, top to bottom.</small></span><b>R68</b></button><button class="service-option"
+                        data-service="kids-cut"><span><strong>Kids Cut</strong><small>30 min · For under-12s. A patient,
+                                gentle cut with a lollipop finish.</small></span><b>R28</b></button></div>
                 <div class="step-heading second-step"><span>02</span>
+                    <div>
+                        <p class="eyebrow">CHOOSE YOUR BARBER</p>
+                        <h2>Who is your barber?</h2>
+                    </div>
+                </div>
+                <div class="barber-options"><button class="barber-option selected"
+                        data-barber="any">No preference</button><button class="barber-option"
+                        data-barber="Mason Cole">Mason Cole</button><button class="barber-option"
+                        data-barber="Rafi Bennett">Rafi Bennett</button></div>
+                <div class="step-heading third-step"><span>03</span>
                     <div>
                         <p class="eyebrow">CHOOSE YOUR TIME</p>
                         <h2>When works?</h2>
@@ -98,37 +110,42 @@
             <aside class="booking-summary">
                 <p class="eyebrow">YOUR APPOINTMENT</p>
                 <div class="summary-line"><span>Service</span><strong data-summary-service>Signature Cut</strong></div>
+                <div class="summary-line"><span>Barber</span><strong data-summary-barber>No preference</strong></div>
                 <div class="summary-line"><span>Duration</span><strong data-summary-duration>45 min</strong></div>
                 <div class="summary-line"><span>Date</span><strong data-summary-date></strong></div>
                 <div class="summary-line"><span>Time</span><strong data-summary-time>3:00 PM</strong></div>
-                <div class="summary-total"><span>Total</span><strong data-summary-price>$42</strong></div>
+                <div class="summary-total"><span>Total</span><strong data-summary-price>R42</strong></div>
                 <p class="summary-note">You can add this appointment to your calendar after confirming.</p>
             </aside>
         </section>
     </main>
     <footer class="site-footer">
         <div class="footer-top">
-            <div><a class="brand brand-light" href="/index.html"><span
+            <div><a class="brand brand-light" href="../../index.html"><span
                         class="brand-mark">N</span><span>Northline<br><em>Barbers</em></span></a>
                 <p class="footer-note">Good hair. Good company.<br>Nothing overdone.</p>
             </div>
             <div class="footer-links">
                 <div>
-                    <p class="eyebrow">Explore</p><a href="/services.html">Services</a><a href="/about.html">About
-                        us</a><a href="/booking.html">Book a chair</a>
+                    <p class="eyebrow">Explore</p><a href="./services.html">Services</a><a href="./about.html">About
+                        us</a><a href="./booking.html">Book a chair</a>
                 </div>
                 <div>
                     <p class="eyebrow">Find us</p>
-                    <p>14 Northline Road<br>Easton, NY 10012</p><a href="/contact.html">Get directions →</a>
+                    <p>14 Northline Road<br>Easton, NY 10012</p><a href="./contact.html">Get directions →</a>
                 </div>
                 <div>
-                    <p class="eyebrow">Follow along</p><a href="/contact.html">Instagram</a><a
+                    <p class="eyebrow">Opening hours</p>
+                    <p>Tue–Fri · 9:00–19:00<br>Sat · 9:00–16:00<br>Sun–Mon · Closed</p>
+                </div>
+                <div>
+                    <p class="eyebrow">Follow along</p><a href="./contact.html">Instagram</a><a
                         href="mailto:hello@northline.barber">hello@northline.barber</a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom"><span>© 2024 Northline Barbers</span>
-            <div><a href="/terms.html">Terms & conditions</a><a href="/privacy.html">Privacy</a></div>
+            <div><a href="./terms.html">Terms & conditions</a><a href="./privacy.html">Privacy</a></div>
         </div>
     </footer>
     <div class="modal-backdrop" data-modal-backdrop>
@@ -139,9 +156,9 @@
             <p class="eyebrow">ALMOST THERE</p>
             <h2 id="booking-modal-title">Where should we send<br><em>the confirmation?</em></h2>
             <p class="modal-description" data-modal-description></p>
-            <form data-booking-form><label>Your name<input name="name" required
-                        placeholder="Alex Morgan"></label><label>Email address<input name="email" required type="email"
-                        placeholder="alex@example.com"></label><button class="button button-accent full-button"
+            <form data-booking-form><label>Full name<input name="name" required
+                        placeholder="Alex Morgan"></label><label>WhatsApp number<input name="whatsapp" required type="tel"
+                        placeholder="+27 81 234 5678"></label><button class="button button-accent full-button"
                     type="submit">Confirm appointment <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M5 12h13M13 6l6 6-6 6" />
                     </svg></button></form>

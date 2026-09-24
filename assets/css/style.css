@@ -926,6 +926,55 @@ blockquote {
   border-color: var(--orange);
 }
 
+.barber-options {
+  display: flex;
+  gap: 8px;
+  margin: 30px 0 64px;
+  flex-wrap: wrap;
+}
+
+.barber-option {
+  border: 1px solid var(--line);
+  background: transparent;
+  padding: 14px 22px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+  transition: border .2s, background .2s, color .2s;
+}
+
+.barber-option:hover,
+.barber-option.selected {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--white);
+}
+
+.third-step {
+  margin-bottom: 30px;
+}
+
+.promo-modal {
+  text-align: center;
+}
+
+.promo-modal .eyebrow {
+  margin-bottom: 16px;
+}
+
+.promo-modal h2 {
+  font-size: 42px;
+  margin-bottom: 18px;
+}
+
+.promo-modal .modal-description {
+  margin-bottom: 30px;
+}
+
+.promo-modal .button {
+  margin-bottom: 16px;
+}
+
 .full-button {
   width: 100%;
 }

@@ -1,4 +1,4 @@
-const BACKEND_URL = 'http://localhost:5000';
+const BACKEND_URL = 'https://kasi-barber.onrender.com';
 
 const serviceCategories = {
   'signature': {
@@ -41,6 +41,7 @@ const serviceCategories = {
       }
     ]
   },
+
   'skin-fade': {
     id: 'skin-fade',
     name: 'Skin Fade',
@@ -81,6 +82,7 @@ const serviceCategories = {
       }
     ]
   },
+
   'beard': {
     id: 'beard',
     name: 'Beard Sculpt',
@@ -121,6 +123,7 @@ const serviceCategories = {
       }
     ]
   },
+
   'cut-beard': {
     id: 'cut-beard',
     name: 'Cut + Beard',
@@ -153,6 +156,7 @@ const serviceCategories = {
       }
     ]
   },
+
   'kids-cut': {
     id: 'kids-cut',
     name: 'Kids Cut Signature',
@@ -203,32 +207,66 @@ const serviceCategories = {
   }
 }
 
-// Flat map of all styles for instant lookups
 const allStylesMap = {}
+
 Object.values(serviceCategories).forEach(cat => {
   cat.styles.forEach(s => {
-    allStylesMap[s.id] = { ...s, categoryId: cat.id, categoryName: cat.name }
+    allStylesMap[s.id] = {
+      ...s,
+      categoryId: cat.id,
+      categoryName: cat.name
+    }
   })
 })
 
 const services = {
-  'signature': { name: 'Signature Cut', duration: '45 min', price: 42 },
-  'skin-fade': { name: 'Skin Fade', duration: '50 min', price: 48 },
-  'beard': { name: 'Beard Sculpt', duration: '30 min', price: 30 },
-  'cut-beard': { name: 'Cut + Beard', duration: '75 min', price: 68 },
-  'kids-cut': { name: 'Kids Cut Signature', duration: '30 min', price: 28 },
+  'signature': {
+    name: 'Signature Cut',
+    duration: '45 min',
+    price: 42
+  },
+  'skin-fade': {
+    name: 'Skin Fade',
+    duration: '50 min',
+    price: 48
+  },
+  'beard': {
+    name: 'Beard Sculpt',
+    duration: '30 min',
+    price: 30
+  },
+  'cut-beard': {
+    name: 'Cut + Beard',
+    duration: '75 min',
+    price: 68
+  },
+  'kids-cut': {
+    name: 'Kids Cut Signature',
+    duration: '30 min',
+    price: 28
+  }
 }
 
-const times = ['9:00 AM', '10:30 AM', '12:00 PM', '1:30 PM', '3:00 PM', '4:30 PM', '5:00 PM']
+const times = [
+  '9:00 AM',
+  '10:30 AM',
+  '12:00 PM',
+  '1:30 PM',
+  '3:00 PM',
+  '4:30 PM',
+  '5:00 PM'
+]
 
 function getMinBookableDate() {
   const now = new Date()
   const minDate = new Date(now)
+
   minDate.setHours(0, 0, 0, 0)
-  // If current time is 5:00 PM (17:00) or later, today is closed. Only the following day can be selected.
+
   if (now.getHours() >= 17) {
     minDate.setDate(minDate.getDate() + 1)
   }
+
   return minDate
 }
 
@@ -237,40 +275,59 @@ const state = {
   chosenStyle: null,
   barber: 'No preference',
   date: getMinBookableDate(),
-  time: '12:00 PM',
+  time: '12:00 PM'
 }
 
 const page = document.body.dataset.page
 
 const siteHeader = document.querySelector('.site-header')
+
 if (siteHeader) {
   const handleScroll = () => {
     siteHeader.classList.toggle('scrolled', window.scrollY > 20)
   }
-  window.addEventListener('scroll', handleScroll, { passive: true })
+
+  window.addEventListener('scroll', handleScroll, {
+    passive: true
+  })
+
   handleScroll()
 }
 
 document.querySelector('.menu-button')?.addEventListener('click', () => {
   const nav = document.querySelector('.desktop-nav')
+
   nav.classList.toggle('open')
 })
 
-if (page === 'booking') initBooking()
-if (page === 'home') initPromo()
+if (page === 'booking') {
+  initBooking()
+}
+
+if (page === 'home') {
+  initPromo()
+}
+
 initServicesMenu()
 
 function initPromo() {
   const modal = document.querySelector('[data-promo-modal]')
+
   if (!modal) return
+
   if (sessionStorage.getItem('northline-promo-seen')) return
-  setTimeout(() => modal.classList.add('visible'), 3000)
+
+  setTimeout(() => {
+    modal.classList.add('visible')
+  }, 3000)
+
   document.querySelectorAll('[data-close-promo], [data-close-promo-link]').forEach(btn => {
     btn.addEventListener('click', () => {
       modal.classList.remove('visible')
       sessionStorage.setItem('northline-promo-seen', '1')
     })
   })
+
   modal.addEventListener('click', e => {
     if (e.target === modal) {
       modal.classList.remove('visible')
@@ -281,46 +338,73 @@ function initPromo() {
 
 function initServicesMenu() {
   const isSubpage = window.location.pathname.includes('/assets/components/')
-  const serviceStylesPage = isSubpage ? './service-styles.html' : './assets/components/service-styles.html'
 
-  const openButtons = document.querySelectorAll('[data-open-service-menu], [data-open-kids-menu], .kids-menu-trigger')
+  const serviceStylesPage = isSubpage
+    ? './service-styles.html'
+    : './assets/components/service-styles.html'
+
+  const openButtons = document.querySelectorAll(
+    '[data-open-service-menu], [data-open-kids-menu], .kids-menu-trigger'
+  )
+
   openButtons.forEach(btn => {
     btn.addEventListener('click', e => {
       e.preventDefault()
-      const category = btn.dataset.serviceCategory || (btn.hasAttribute('data-open-kids-menu') ? 'kids-cut' : 'signature')
+
+      const category =
+        btn.dataset.serviceCategory ||
+        (btn.hasAttribute('data-open-kids-menu') ? 'kids-cut' : 'signature')
+
       window.location.href = `${serviceStylesPage}?category=${category}`
     })
   })
 
-  // Initialize any studios (on dedicated full page service-styles.html)
-  document.querySelectorAll('[data-service-studio], [data-kids-studio]').forEach(setupServiceStudio)
+  document
+    .querySelectorAll('[data-service-studio], [data-kids-studio]')
+    .forEach(setupServiceStudio)
 }
 
 function setupServiceStudio(studio) {
   let activeCategoryId = 'signature'
-  let activeStyleId = serviceCategories['signature'].styles[0].id
+  let activeStyleId = serviceCategories.signature.styles[0].id
 
   const eyebrowEl = studio.querySelector('[data-menu-eyebrow]')
   const headingEl = studio.querySelector('[data-menu-heading]')
   const descEl = studio.querySelector('[data-menu-desc]')
   const navList = studio.querySelector('[data-styles-nav]')
   const activeCard = studio.querySelector('[data-active-style-card]')
-  const previewImg = studio.querySelector('[data-preview-img]') || studio.querySelector('[data-turntable-img]')
+  const previewImg =
+    studio.querySelector('[data-preview-img]') ||
+    studio.querySelector('[data-turntable-img]')
   const previewTag = studio.querySelector('[data-preview-tag]')
   const previewCaption = studio.querySelector('[data-preview-caption]')
 
   const isSubpage = window.location.pathname.includes('/assets/components/')
-  const bookingBasePath = isSubpage ? './booking.html' : './assets/components/booking.html'
+
+  const bookingBasePath = isSubpage
+    ? './booking.html'
+    : './assets/components/booking.html'
 
   function setCategory(catId) {
     if (!serviceCategories[catId]) return
+
     activeCategoryId = catId
+
     const cat = serviceCategories[catId]
+
     activeStyleId = cat.styles[0].id
 
-    if (eyebrowEl) eyebrowEl.textContent = cat.eyebrow
-    if (headingEl) headingEl.innerHTML = `${cat.name} <em>Styles.</em>`
-    if (descEl) descEl.textContent = cat.description
+    if (eyebrowEl) {
+      eyebrowEl.textContent = cat.eyebrow
+    }
+
+    if (headingEl) {
+      headingEl.innerHTML = `${cat.name} <em>Styles.</em>`
+    }
+
+    if (descEl) {
+      descEl.textContent = cat.description
+    }
 
     renderStylesNav()
     renderActiveStyle()
@@ -328,18 +412,26 @@ function setupServiceStudio(studio) {
 
   function renderStylesNav() {
     if (!navList) return
+
     const cat = serviceCategories[activeCategoryId]
+
     if (!cat) return
 
-    navList.innerHTML = cat.styles.map(style => `
-      <button type="button" class="style-nav-item ${style.id === activeStyleId ? 'active' : ''}" data-style-select="${style.id}">
-        <div class="style-nav-info">
-          <strong>${style.name}</strong>
-          <small>${style.description}</small>
-        </div>
-        <span class="style-nav-price">R${style.price}</span>
-      </button>
-    `).join('')
+    navList.innerHTML = cat.styles
+      .map(
+        style => `
+          <button type="button" class="style-nav-item ${
+            style.id === activeStyleId ? 'active' : ''
+          }" data-style-select="${style.id}">
+            <div class="style-nav-info">
+              <strong>${style.name}</strong>
+              <small>${style.description}</small>
+            </div>
+            <span class="style-nav-price">R${style.price}</span>
+          </button>
+        `
+      )
+      .join('')
 
     navList.querySelectorAll('[data-style-select]').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -350,20 +442,31 @@ function setupServiceStudio(studio) {
 
   function renderActiveStyle() {
     const cat = serviceCategories[activeCategoryId]
-    const style = cat?.styles.find(s => s.id === activeStyleId) || cat?.styles[0]
+
+    const style =
+      cat?.styles.find(s => s.id === activeStyleId) ||
+      cat?.styles[0]
+
     if (!style) return
 
     if (previewImg) {
       previewImg.style.opacity = '0.35'
       previewImg.src = style.image
+
       setTimeout(() => {
         previewImg.style.opacity = '1'
       }, 80)
     }
 
-    if (previewTag) previewTag.textContent = cat.name
+    if (previewTag) {
+      previewTag.textContent = cat.name
+    }
+
     if (previewCaption) {
-      previewCaption.innerHTML = `<span>${style.name}</span><span>R${style.price}</span>`
+      previewCaption.innerHTML = `
+        <span>${style.name}</span>
+        <span>R${style.price}</span>
+      `
     }
 
     if (activeCard) {
@@ -388,13 +491,19 @@ function setupServiceStudio(studio) {
 
   function selectStyle(styleId) {
     const cat = serviceCategories[activeCategoryId]
+
     const found = cat?.styles.find(s => s.id === styleId)
+
     if (!found) return
+
     activeStyleId = styleId
 
     if (navList) {
       navList.querySelectorAll('.style-nav-item').forEach(item => {
-        item.classList.toggle('active', item.dataset.styleSelect === styleId)
+        item.classList.toggle(
+          'active',
+          item.dataset.styleSelect === styleId
+        )
       })
     }
 
@@ -403,31 +512,40 @@ function setupServiceStudio(studio) {
 
   function scrollToStudio() {
     const target = studio.closest('section') || studio
+
     setTimeout(() => {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      target.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      })
     }, 120)
   }
 
-  studio._openCategory = (catId) => {
+  studio._openCategory = catId => {
     setCategory(catId || 'signature')
     scrollToStudio()
   }
 
-  // Check URL param if page loaded with category
   const urlCat = new URLSearchParams(window.location.search).get('category')
-  setCategory(urlCat && serviceCategories[urlCat] ? urlCat : 'signature')
 
-  // Auto-scroll to studio section
+  setCategory(
+    urlCat && serviceCategories[urlCat]
+      ? urlCat
+      : 'signature'
+  )
+
   scrollToStudio()
 }
 
 function initBooking() {
   const urlParams = new URLSearchParams(location.search)
+
   const serviceParam = urlParams.get('service')
   const styleParam = urlParams.get('style')
 
   if (styleParam && allStylesMap[styleParam]) {
     const styleObj = allStylesMap[styleParam]
+
     state.chosenStyle = styleObj
     state.service = styleObj.categoryId
   } else if (serviceParam && serviceCategories[serviceParam]) {
@@ -439,6 +557,7 @@ function initBooking() {
   }
 
   const minDate = getMinBookableDate()
+
   if (state.date < minDate) {
     state.date = new Date(minDate)
   }
@@ -460,186 +579,240 @@ function initBooking() {
     modal: document.querySelector('[data-modal-backdrop]'),
     modalDescription: document.querySelector('[data-modal-description]'),
     closeModal: document.querySelector('[data-close-modal]'),
-    form: document.querySelector('[data-booking-form]'),
+    form: document.querySelector('[data-booking-form]')
   }
 
-  els.serviceOptions.forEach(btn => btn.addEventListener('click', (e) => {
-    // If user clicked the "View styles →" link inside the card, allow navigation to styles page
-    if (e.target.closest('.service-tag')) return
+  els.serviceOptions.forEach(btn => {
+    btn.addEventListener('click', e => {
+      if (e.target.closest('.service-tag')) return
 
-    const newService = btn.dataset.service
-    if (serviceCategories[newService]) {
-      state.service = newService
-      state.chosenStyle = null
+      const newService = btn.dataset.service
+
+      if (serviceCategories[newService]) {
+        state.service = newService
+        state.chosenStyle = null
+
+        syncUI(els)
+      }
+    })
+  })
+
+  els.timeOptions.forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (btn.disabled) return
+
+      state.time = btn.dataset.time
+
+      syncTimes(els)
       syncUI(els)
-    }
-  }))
+    })
+  })
 
-  els.timeOptions.forEach(btn => btn.addEventListener('click', () => {
-    if (btn.disabled) return
-    state.time = btn.dataset.time
-    syncTimes(els)
-    syncUI(els)
-  }))
+  els.barberOptions.forEach(btn => {
+    btn.addEventListener('click', () => {
+      state.barber =
+        btn.dataset.barber === 'any'
+          ? 'No preference'
+          : btn.dataset.barber
 
-  els.barberOptions.forEach(btn => btn.addEventListener('click', () => {
-    state.barber = btn.dataset.barber === 'any' ? 'No preference' : btn.dataset.barber
-    syncUI(els)
-  }))
+      syncUI(els)
+    })
+  })
 
-  els.dateArrows.forEach(btn => btn.addEventListener('click', () => {
-    const move = Number(btn.dataset.dateMove)
-    const targetDate = new Date(state.date)
-    targetDate.setDate(targetDate.getDate() + move)
-    const currentMin = getMinBookableDate()
-    if (targetDate < currentMin) return
+  els.dateArrows.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const move = Number(btn.dataset.dateMove)
 
-    state.date = targetDate
-    renderDates(els)
-    syncTimes(els)
-    syncUI(els)
-  }))
+      const targetDate = new Date(state.date)
+
+      targetDate.setDate(targetDate.getDate() + move)
+
+      const currentMin = getMinBookableDate()
+
+      if (targetDate < currentMin) return
+
+      state.date = targetDate
+
+      renderDates(els)
+      syncTimes(els)
+      syncUI(els)
+    })
+  })
 
   els.continueBtn?.addEventListener('click', () => {
     const cat = serviceCategories[state.service]
-    const chosen = (state.chosenStyle && state.chosenStyle.categoryId === state.service) ? state.chosenStyle : null
-    const displayName = chosen ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
+
+    const chosen =
+      state.chosenStyle &&
+      state.chosenStyle.categoryId === state.service
+        ? state.chosenStyle
+        : null
+
+    const displayName = chosen
+      ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}`
+      : services[state.service]?.name || 'Signature Cut'
+
     if (els.modalDescription) {
-      els.modalDescription.textContent = `We will hold your spot for ${displayName} on ${state.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at ${state.time}.`
+      els.modalDescription.textContent =
+        `We will hold your spot for ${displayName} on ` +
+        `${state.date.toLocaleDateString('en-US', {
+          month: 'long',
+          day: 'numeric'
+        })} at ${state.time}.`
     }
+
     els.modal?.classList.add('visible')
   })
 
-  els.closeModal?.addEventListener('click', () => els.modal?.classList.remove('visible'))
-  els.modal?.addEventListener('click', e => { if (e.target === els.modal) els.modal.classList.remove('visible') })
+  els.closeModal?.addEventListener('click', () => {
+    els.modal?.classList.remove('visible')
+  })
+
+  els.modal?.addEventListener('click', e => {
+    if (e.target === els.modal) {
+      els.modal.classList.remove('visible')
+    }
+  })
 
   els.form?.addEventListener('submit', async e => {
+    e.preventDefault()
 
-  e.preventDefault()
+    const formData = new FormData(els.form)
 
-  const formData = new FormData(els.form)
+    state.customerName = String(
+      formData.get('name') || ''
+    ).trim()
 
-  state.customerName = String(formData.get('name') || '').trim()
-  state.customerEmail = String(formData.get('email') || '').trim()
-  state.customerWhatsapp = String(formData.get('whatsapp') || '').trim()
+    state.customerEmail = String(
+      formData.get('email') || ''
+    ).trim()
 
-  if (!state.customerName) {
-    alert('Please enter your name.')
-    return
-  }
+    state.customerWhatsapp = String(
+      formData.get('whatsapp') || ''
+    ).trim()
 
-  if (!state.customerEmail || !state.customerEmail.includes('@')) {
-    alert('Please enter a valid email address.')
-    return
-  }
-
-  if (!state.customerWhatsapp) {
-    alert('Please enter your WhatsApp number.')
-    return
-  }
-
-  const cat = serviceCategories[state.service]
-
-  const chosen = (
-    state.chosenStyle &&
-    state.chosenStyle.categoryId === state.service
-  )
-    ? state.chosenStyle
-    : null
-
-  const displayName = chosen
-    ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}`
-    : (services[state.service]?.name || 'Signature Cut')
-
-  const duration = chosen
-    ? chosen.duration
-    : (services[state.service]?.duration || '45 min')
-
-  const price = chosen
-    ? `R${chosen.price}`
-    : `R${services[state.service]?.price || 42}`
-
-  const bookingData = {
-    customerName: state.customerName,
-    customerEmail: state.customerEmail,
-    customerWhatsapp: state.customerWhatsapp,
-    service: state.service,
-    serviceName: displayName,
-    barber: state.barber,
-    date: state.date.toISOString(),
-    dateFormatted: state.date.toLocaleDateString('en-GB', {
-      weekday: 'long',
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric'
-    }),
-    time: state.time,
-    duration,
-    price,
-    chosenStyle: chosen
-      ? {
-          id: chosen.id,
-          name: chosen.name,
-          categoryId: chosen.categoryId,
-          categoryName: chosen.categoryName
-        }
-      : null
-  }
-
-  const submitButton = els.form.querySelector('button[type="submit"]')
-
-  if (submitButton) {
-    submitButton.disabled = true
-    submitButton.textContent = 'Confirming booking...'
-  }
-
-  try {
-
-    const response = await fetch(`${BACKEND_URL}/api/bookings`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(bookingData)
-    })
-
-    const result = await response.json()
-
-    if (!response.ok) {
-      throw new Error(
-        result.message ||
-        result.error ||
-        'Unable to complete your booking.'
-      )
+    if (!state.customerName) {
+      alert('Please enter your name.')
+      return
     }
 
-    state.bookingId = result.booking?.id || null
-    state.emailSent = Boolean(result.emailSent)
-    state.whatsappSent = Boolean(result.whatsappSent)
+    if (
+      !state.customerEmail ||
+      !state.customerEmail.includes('@')
+    ) {
+      alert('Please enter a valid email address.')
+      return
+    }
 
-    els.modal?.classList.remove('visible')
+    if (!state.customerWhatsapp) {
+      alert('Please enter your WhatsApp number.')
+      return
+    }
 
-    showConfirmation()
+    const cat = serviceCategories[state.service]
 
-  } catch (error) {
+    const chosen =
+      state.chosenStyle &&
+      state.chosenStyle.categoryId === state.service
+        ? state.chosenStyle
+        : null
 
-    console.error('[Booking] Failed:', error)
+    const displayName = chosen
+      ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}`
+      : services[state.service]?.name || 'Signature Cut'
 
-    alert(
-      error.message ||
-      'Something went wrong while confirming your booking. Please try again.'
-    )
+    const duration = chosen
+      ? chosen.duration
+      : services[state.service]?.duration || '45 min'
 
-  } finally {
+    const price = chosen
+      ? `R${chosen.price}`
+      : `R${services[state.service]?.price || 42}`
+
+    const bookingData = {
+      customerName: state.customerName,
+      customerEmail: state.customerEmail,
+      customerWhatsapp: state.customerWhatsapp,
+      service: state.service,
+      serviceName: displayName,
+      barber: state.barber,
+      date: state.date.toISOString(),
+      dateFormatted: state.date.toLocaleDateString('en-GB', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }),
+      time: state.time,
+      duration,
+      price,
+      chosenStyle: chosen
+        ? {
+            id: chosen.id,
+            name: chosen.name,
+            categoryId: chosen.categoryId,
+            categoryName: chosen.categoryName
+          }
+        : null
+    }
+
+    const submitButton =
+      els.form.querySelector('button[type="submit"]')
 
     if (submitButton) {
-      submitButton.disabled = false
-      submitButton.textContent = 'Confirm Booking'
+      submitButton.disabled = true
+      submitButton.textContent = 'Confirming booking...'
     }
 
-  }
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/api/bookings`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(bookingData)
+        }
+      )
 
-})
+      let result = {}
+
+      try {
+        result = await response.json()
+      } catch {
+        result = {}
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          result.message ||
+          result.error ||
+          'Unable to complete your booking.'
+        )
+      }
+
+      state.bookingId = result.booking?.id || null
+      state.emailSent = Boolean(result.emailSent)
+      state.whatsappSent = Boolean(result.whatsappSent)
+
+      els.modal?.classList.remove('visible')
+
+      showConfirmation()
+    } catch (error) {
+      console.error('[Booking] Failed:', error)
+
+      alert(
+        error.message ||
+        'Something went wrong while confirming your booking. Please try again.'
+      )
+    } finally {
+      if (submitButton) {
+        submitButton.disabled = false
+        submitButton.textContent = 'Confirm Booking'
+      }
+    }
+  })
 
   renderDates(els)
   syncTimes(els)
@@ -648,40 +821,71 @@ function initBooking() {
 
 function syncTimes(els) {
   if (!els.timeOptions) return
+
   const now = new Date()
-  const isToday = state.date.toDateString() === now.toDateString()
+
+  const isToday =
+    state.date.toDateString() === now.toDateString()
+
   let firstAvailableTime = null
 
   els.timeOptions.forEach(btn => {
     const timeStr = btn.dataset.time
-    const [timePart, meridiem] = timeStr.split(' ')
-    const [h, m] = timePart.split(':').map(Number)
-    const hour24 = (h % 12) + (meridiem === 'PM' ? 12 : 0)
 
-    // Cannot be before 9:00 AM or after 5:00 PM (17:00)
+    const [timePart, meridiem] = timeStr.split(' ')
+
+    const [h, m] = timePart.split(':').map(Number)
+
+    const hour24 =
+      (h % 12) +
+      (meridiem === 'PM' ? 12 : 0)
+
     const isBefore9 = hour24 < 9
-    const isAfter5 = hour24 > 17 || (hour24 === 17 && m > 0)
+
+    const isAfter5 =
+      hour24 > 17 ||
+      (hour24 === 17 && m > 0)
+
     let isPast = false
 
     if (isToday) {
       const slotTime = new Date(state.date)
-      slotTime.setHours(hour24, m, 0, 0)
+
+      slotTime.setHours(
+        hour24,
+        m,
+        0,
+        0
+      )
+
       if (slotTime <= now) {
         isPast = true
       }
     }
 
-    const disabled = isBefore9 || isAfter5 || isPast
+    const disabled =
+      isBefore9 ||
+      isAfter5 ||
+      isPast
+
     btn.disabled = disabled
-    btn.classList.toggle('disabled', disabled)
+
+    btn.classList.toggle(
+      'disabled',
+      disabled
+    )
 
     if (!disabled && !firstAvailableTime) {
       firstAvailableTime = timeStr
     }
   })
 
-  // If current selected time is disabled, switch to first available time
-  const currentBtn = Array.from(els.timeOptions).find(b => b.dataset.time === state.time)
+  const currentBtn = Array.from(
+    els.timeOptions
+  ).find(
+    b => b.dataset.time === state.time
+  )
+
   if (!currentBtn || currentBtn.disabled) {
     if (firstAvailableTime) {
       state.time = firstAvailableTime
@@ -689,182 +893,505 @@ function syncTimes(els) {
   }
 
   els.timeOptions.forEach(btn => {
-    btn.classList.toggle('selected', btn.dataset.time === state.time && !btn.disabled)
+    btn.classList.toggle(
+      'selected',
+      btn.dataset.time === state.time &&
+      !btn.disabled
+    )
   })
 }
 
 function renderDates(els) {
   if (!els.dateOptions) return
+
   els.dateOptions.replaceChildren()
+
   const minDate = getMinBookableDate()
 
   if (state.date < minDate) {
     state.date = new Date(minDate)
   }
 
-  // Calculate 5-day window starting from minDate or around state.date
   let startDate = new Date(state.date)
-  startDate.setDate(startDate.getDate() - 2)
+
+  startDate.setDate(
+    startDate.getDate() - 2
+  )
+
   if (startDate < minDate) {
     startDate = new Date(minDate)
   }
 
   for (let i = 0; i < 5; i++) {
     const d = new Date(startDate)
-    d.setDate(startDate.getDate() + i)
+
+    d.setDate(
+      startDate.getDate() + i
+    )
+
     const isPast = d < minDate
-    const isSelected = d.toDateString() === state.date.toDateString()
+
+    const isSelected =
+      d.toDateString() ===
+      state.date.toDateString()
 
     const btn = document.createElement('button')
+
     btn.type = 'button'
-    btn.className = 'date-option' + (isSelected ? ' selected' : '') + (isPast ? ' disabled' : '')
+
+    btn.className =
+      'date-option' +
+      (isSelected ? ' selected' : '') +
+      (isPast ? ' disabled' : '')
+
     btn.dataset.date = d.toISOString()
+
     btn.disabled = isPast
 
-    const dayLabel = document.createElement('small')
+    const dayLabel =
+      document.createElement('small')
+
     const now = new Date()
+
     now.setHours(0, 0, 0, 0)
-    if (d.toDateString() === now.toDateString()) {
+
+    if (
+      d.toDateString() ===
+      now.toDateString()
+    ) {
       dayLabel.textContent = 'Today'
     } else {
-      dayLabel.textContent = d.toLocaleDateString('en-US', { weekday: 'short' })
+      dayLabel.textContent =
+        d.toLocaleDateString(
+          'en-US',
+          {
+            weekday: 'short'
+          }
+        )
     }
 
-    const dayNum = document.createElement('strong')
+    const dayNum =
+      document.createElement('strong')
+
     dayNum.textContent = d.getDate()
-    btn.append(dayLabel, dayNum)
+
+    btn.append(
+      dayLabel,
+      dayNum
+    )
 
     btn.addEventListener('click', () => {
       if (btn.disabled) return
-      state.date = new Date(btn.dataset.date)
+
+      state.date =
+        new Date(btn.dataset.date)
+
       renderDates(els)
       syncTimes(els)
       syncUI(els)
     })
+
     els.dateOptions.appendChild(btn)
   }
 
-  // Update previous day arrow state
-  const prevDate = new Date(state.date)
-  prevDate.setDate(prevDate.getDate() - 1)
+  const prevDate =
+    new Date(state.date)
+
+  prevDate.setDate(
+    prevDate.getDate() - 1
+  )
+
   els.dateArrows.forEach(btn => {
-    if (btn.dataset.dateMove === '-1') {
-      const canGoBack = prevDate >= minDate
+    if (
+      btn.dataset.dateMove === '-1'
+    ) {
+      const canGoBack =
+        prevDate >= minDate
+
       btn.disabled = !canGoBack
-      btn.setAttribute('aria-disabled', String(!canGoBack))
+
+      btn.setAttribute(
+        'aria-disabled',
+        String(!canGoBack)
+      )
     }
   })
 }
 
 function syncUI(els) {
-  const cat = serviceCategories[state.service]
-  const chosen = (state.chosenStyle && state.chosenStyle.categoryId === state.service) ? state.chosenStyle : null
+  const cat =
+    serviceCategories[state.service]
 
-  const displayName = chosen ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
-  const displayDuration = chosen ? chosen.duration : (services[state.service]?.duration || '45 min')
-  const displayPrice = chosen ? `R${chosen.price}` : `R${services[state.service]?.price || 42}`
-  const buttonLabel = chosen ? `${chosen.name} (${displayPrice})` : `${services[state.service]?.name || 'Signature Cut'} (${displayPrice})`
+  const chosen =
+    state.chosenStyle &&
+    state.chosenStyle.categoryId ===
+      state.service
+      ? state.chosenStyle
+      : null
+
+  const displayName = chosen
+    ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}`
+    : services[state.service]?.name ||
+      'Signature Cut'
+
+  const displayDuration =
+    chosen
+      ? chosen.duration
+      : services[state.service]?.duration ||
+        '45 min'
+
+  const displayPrice =
+    chosen
+      ? `R${chosen.price}`
+      : `R${services[state.service]?.price || 42}`
+
+  const buttonLabel = chosen
+    ? `${chosen.name} (${displayPrice})`
+    : `${services[state.service]?.name || 'Signature Cut'} (${displayPrice})`
 
   els.serviceOptions.forEach(btn => {
-    const isSelected = btn.dataset.service === state.service
-    btn.classList.toggle('selected', isSelected)
+    const isSelected =
+      btn.dataset.service ===
+      state.service
+
+    btn.classList.toggle(
+      'selected',
+      isSelected
+    )
   })
 
   els.barberOptions.forEach(btn => {
-    const label = btn.dataset.barber === 'any' ? 'No preference' : btn.dataset.barber
-    btn.classList.toggle('selected', label === state.barber)
+    const label =
+      btn.dataset.barber === 'any'
+        ? 'No preference'
+        : btn.dataset.barber
+
+    btn.classList.toggle(
+      'selected',
+      label === state.barber
+    )
   })
 
-  if (els.continueService) els.continueService.textContent = buttonLabel
-  if (els.summaryService) els.summaryService.textContent = displayName
-  if (els.summaryBarber) els.summaryBarber.textContent = state.barber
-  if (els.summaryDuration) els.summaryDuration.textContent = displayDuration
-  if (els.summaryDate) els.summaryDate.textContent = state.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })
-  if (els.summaryTime) els.summaryTime.textContent = state.time
-  if (els.summaryPrice) els.summaryPrice.textContent = displayPrice
+  if (els.continueService) {
+    els.continueService.textContent =
+      buttonLabel
+  }
+
+  if (els.summaryService) {
+    els.summaryService.textContent =
+      displayName
+  }
+
+  if (els.summaryBarber) {
+    els.summaryBarber.textContent =
+      state.barber
+  }
+
+  if (els.summaryDuration) {
+    els.summaryDuration.textContent =
+      displayDuration
+  }
+
+  if (els.summaryDate) {
+    els.summaryDate.textContent =
+      state.date.toLocaleDateString(
+        'en-US',
+        {
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric'
+        }
+      )
+  }
+
+  if (els.summaryTime) {
+    els.summaryTime.textContent =
+      state.time
+  }
+
+  if (els.summaryPrice) {
+    els.summaryPrice.textContent =
+      displayPrice
+  }
 }
 
 function showConfirmation() {
-  const cat = serviceCategories[state.service]
-  const chosen = (state.chosenStyle && state.chosenStyle.categoryId === state.service) ? state.chosenStyle : null
-  const displayName = chosen ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
-  const durationMin = chosen ? parseInt(chosen.duration, 10) : parseInt(services[state.service]?.duration || '45', 10)
-  const start = parseStartTime(state.date, state.time)
-  const end = new Date(start.getTime() + durationMin * 60000)
+  const cat =
+    serviceCategories[state.service]
 
-  const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Northline Barbers — ' + displayName)}&dates=${fmtCal(start)}/${fmtCal(end)}&details=${encodeURIComponent('Booking for ' + state.customerName + ' (' + state.customerWhatsapp + '). Barber: ' + state.barber + '. Your appointment at Northline Barbers. See you in the chair.')}&location=${encodeURIComponent('14 Lynnwood Road, Brooklyn, Pretoria 0181')}`
+  const chosen =
+    state.chosenStyle &&
+    state.chosenStyle.categoryId ===
+      state.service
+      ? state.chosenStyle
+      : null
 
-  const backdrop = document.createElement('div')
-  backdrop.className = 'modal-backdrop visible'
+  const displayName = chosen
+    ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}`
+    : services[state.service]?.name ||
+      'Signature Cut'
+
+  const durationMin =
+    chosen
+      ? parseInt(chosen.duration, 10)
+      : parseInt(
+          services[state.service]?.duration ||
+            '45',
+          10
+        )
+
+  const start =
+    parseStartTime(
+      state.date,
+      state.time
+    )
+
+  const end =
+    new Date(
+      start.getTime() +
+      durationMin * 60000
+    )
+
+  const googleUrl =
+    `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+    `&text=${encodeURIComponent(
+      'Northline Barbers — ' + displayName
+    )}` +
+    `&dates=${fmtCal(start)}/${fmtCal(end)}` +
+    `&details=${encodeURIComponent(
+      'Booking for ' +
+      state.customerName +
+      ' (' +
+      state.customerWhatsapp +
+      '). Barber: ' +
+      state.barber +
+      '. Your appointment at Northline Barbers. See you in the chair.'
+    )}` +
+    `&location=${encodeURIComponent(
+      '14 Lynnwood Road, Brooklyn, Pretoria 0181'
+    )}`
+
+  const backdrop =
+    document.createElement('div')
+
+  backdrop.className =
+    'modal-backdrop visible'
+
   backdrop.dataset.confirmationModal = ''
 
-  const modal = document.createElement('div')
-  modal.className = 'booking-modal confirmation-modal'
-  modal.setAttribute('role', 'dialog')
-  modal.setAttribute('aria-modal', 'true')
+  const modal =
+    document.createElement('div')
 
-  const checkmark = document.createElement('div')
-  checkmark.className = 'success-icon'
+  modal.className =
+    'booking-modal confirmation-modal'
+
+  modal.setAttribute(
+    'role',
+    'dialog'
+  )
+
+  modal.setAttribute(
+    'aria-modal',
+    'true'
+  )
+
+  const checkmark =
+    document.createElement('div')
+
+  checkmark.className =
+    'success-icon'
+
   checkmark.textContent = '✓'
 
-  const eyebrow = document.createElement('p')
-  eyebrow.className = 'eyebrow'
-  eyebrow.textContent = 'YOU ARE ALL SET'
+  const eyebrow =
+    document.createElement('p')
 
-  const heading = document.createElement('h2')
-  heading.append('See you in', document.createElement('br'))
-  const italic = document.createElement('em')
-  italic.textContent = 'the chair.'
+  eyebrow.className =
+    'eyebrow'
+
+  eyebrow.textContent =
+    'YOU ARE ALL SET'
+
+  const heading =
+    document.createElement('h2')
+
+  heading.append(
+    'See you in',
+    document.createElement('br')
+  )
+
+  const italic =
+    document.createElement('em')
+
+  italic.textContent =
+    'the chair.'
+
   heading.appendChild(italic)
 
-  const desc = document.createElement('p')
-  desc.className = 'modal-description'
-  desc.textContent = `Your ${displayName} with ${state.barber === 'No preference' ? 'the next available barber' : state.barber} is booked for ${state.date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })} at ${state.time}. A confirmation with your booking details has been sent to ${state.customerWhatsapp}.`
+  const desc =
+    document.createElement('p')
 
-  const actions = document.createElement('div')
-  actions.className = 'calendar-actions'
+  desc.className =
+    'modal-description'
 
-  const googleLink = document.createElement('a')
-  googleLink.className = 'button button-dark full-button'
-  googleLink.href = googleUrl
-  googleLink.target = '_blank'
-  googleLink.rel = 'noreferrer'
-  googleLink.textContent = 'Add to Google Calendar'
+  const confirmationChannel =
+    state.emailSent && state.whatsappSent
+      ? `A confirmation has been sent to ${state.customerEmail} and ${state.customerWhatsapp}.`
+      : state.emailSent
+        ? `A confirmation has been sent to ${state.customerEmail}.`
+        : state.whatsappSent
+          ? `A confirmation has been sent to ${state.customerWhatsapp}.`
+          : 'Your booking has been successfully confirmed.'
 
-  const icsButton = document.createElement('button')
-  icsButton.className = 'button button-outline full-button'
+  desc.textContent =
+    `Your ${displayName} with ${
+      state.barber === 'No preference'
+        ? 'the next available barber'
+        : state.barber
+    } is booked for ${
+      state.date.toLocaleDateString(
+        'en-US',
+        {
+          weekday: 'long',
+          month: 'long',
+          day: 'numeric'
+        }
+      )
+    } at ${state.time}. ${confirmationChannel}`
+
+  const actions =
+    document.createElement('div')
+
+  actions.className =
+    'calendar-actions'
+
+  const googleLink =
+    document.createElement('a')
+
+  googleLink.className =
+    'button button-dark full-button'
+
+  googleLink.href =
+    googleUrl
+
+  googleLink.target =
+    '_blank'
+
+  googleLink.rel =
+    'noreferrer'
+
+  googleLink.textContent =
+    'Add to Google Calendar'
+
+  const icsButton =
+    document.createElement('button')
+
+  icsButton.type = 'button'
+
+  icsButton.className =
+    'button button-outline full-button'
+
   icsButton.dataset.downloadIcs = ''
-  icsButton.textContent = 'Add Apple Calendar file'
 
-  actions.append(googleLink, icsButton)
+  icsButton.textContent =
+    'Add Apple Calendar file'
 
-  const backLink = document.createElement('a')
-  backLink.className = 'text-link centered-link'
-  backLink.href = '../../index.html'
-  backLink.textContent = 'Back to home →'
+  actions.append(
+    googleLink,
+    icsButton
+  )
 
-  modal.append(checkmark, eyebrow, heading, desc, actions, backLink)
+  const backLink =
+    document.createElement('a')
+
+  backLink.className =
+    'text-link centered-link'
+
+  backLink.href =
+    '../../index.html'
+
+  backLink.textContent =
+    'Back to home →'
+
+  modal.append(
+    checkmark,
+    eyebrow,
+    heading,
+    desc,
+    actions,
+    backLink
+  )
+
   backdrop.appendChild(modal)
+
   document.body.appendChild(backdrop)
 
-  icsButton.addEventListener('click', () => {
-    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${fmtCal(start)}\nDTEND:${fmtCal(end)}\nSUMMARY:Northline Barbers — ${displayName}\nLOCATION:14 Lynnwood Road, Brooklyn, Pretoria 0181\nDESCRIPTION:Booking for ${state.customerName} (${state.customerWhatsapp}). Barber: ${state.barber}\nEND:VEVENT\nEND:VCALENDAR`
-    const link = document.createElement('a')
-    link.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }))
-    link.download = 'northline-appointment.ics'
-    link.click()
-    URL.revokeObjectURL(link.href)
-  })
+  icsButton.addEventListener(
+    'click',
+    () => {
+      const ics =
+        `BEGIN:VCALENDAR\n` +
+        `VERSION:2.0\n` +
+        `BEGIN:VEVENT\n` +
+        `DTSTART:${fmtCal(start)}\n` +
+        `DTEND:${fmtCal(end)}\n` +
+        `SUMMARY:Northline Barbers — ${displayName}\n` +
+        `LOCATION:14 Lynnwood Road, Brooklyn, Pretoria 0181\n` +
+        `DESCRIPTION:Booking for ${state.customerName} (${state.customerWhatsapp}). Barber: ${state.barber}\n` +
+        `END:VEVENT\n` +
+        `END:VCALENDAR`
+
+      const link =
+        document.createElement('a')
+
+      link.href =
+        URL.createObjectURL(
+          new Blob(
+            [ics],
+            {
+              type: 'text/calendar'
+            }
+          )
+        )
+
+      link.download =
+        'northline-appointment.ics'
+
+      link.click()
+
+      URL.revokeObjectURL(
+        link.href
+      )
+    }
+  )
 }
 
-function parseStartTime(date, timeStr) {
-  const [time, meridiem] = timeStr.split(' ')
-  const [hours, minutes] = time.split(':').map(Number)
+function parseStartTime(
+  date,
+  timeStr
+) {
+  const [time, meridiem] =
+    timeStr.split(' ')
+
+  const [hours, minutes] =
+    time.split(':').map(Number)
+
   const d = new Date(date)
-  d.setHours(hours % 12 + (meridiem === 'PM' ? 12 : 0), minutes, 0, 0)
+
+  d.setHours(
+    hours % 12 +
+      (meridiem === 'PM' ? 12 : 0),
+    minutes,
+    0,
+    0
+  )
+
   return d
 }
 
 function fmtCal(date) {
-  return date.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
+  return date
+    .toISOString()
+    .replace(/[-:]/g, '')
+    .replace(/\.\d{3}/, '')
 }

@@ -1,3 +1,4 @@
+
 const serviceCategories = {
   'signature': {
     id: 'signature',
@@ -10,7 +11,7 @@ const serviceCategories = {
         name: 'Classic Gentleman Cut',
         price: 42,
         duration: '45 min',
-        image: 'https://images.pexels.com/photos/7447152/pexels-photo-7447152.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFzrrTtvO-olTKa-byc7zsl56pWeSKeO5TWGiNq-EUhPzEN6S3qRgNpGAh&s=10',
         description: 'Timeless scissor and clipper cut, natural side parting, tapered neck, finished with a warm hot towel and organic styling balm.'
       },
       {
@@ -18,7 +19,7 @@ const serviceCategories = {
         name: 'Textured Modern Crop',
         price: 44,
         duration: '45 min',
-        image: 'https://images.pexels.com/photos/7447150/pexels-photo-7447150.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://cdn.shopify.com/s/files/1/0029/0868/4397/files/textured-crop-drop-fade-hairstyle-men.webp?v=1763977299',
         description: 'Forward textured crop with clean shear work, blunt micro-fringe, and low natural taper. Easy effortless finger-combed style.'
       },
       {
@@ -26,7 +27,7 @@ const serviceCategories = {
         name: 'Executive Scissor Taper',
         price: 45,
         duration: '45 min',
-        image: 'https://images.pexels.com/photos/7447148/pexels-photo-7447148.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSVFpyZmtnBj_0U12rwoOMRqRJ15mofhqTUieT1rqcfpg&s=10',
         description: 'Hand-crafted all-scissor cut tailored to your natural growth patterns. Soft graduated sides with natural movement.'
       },
       {
@@ -34,7 +35,7 @@ const serviceCategories = {
         name: 'Classic Pompadour',
         price: 44,
         duration: '45 min',
-        image: 'https://images.pexels.com/photos/7447146/pexels-photo-7447146.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://therighthairstyles.com/wp-content/uploads/2025/07/26-black-flat-top-haircut.jpg',
         description: 'Structured silhouette with rich crown volume, clean taper graduation, and high-hold matte finish.'
       }
     ]
@@ -50,7 +51,7 @@ const serviceCategories = {
         name: 'Low Drop Fade',
         price: 48,
         duration: '50 min',
-        image: 'https://images.pexels.com/photos/7697225/pexels-photo-7697225.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTrR023FM2rRHxLJVRAb6zRZvQ9kEit3j6vUgQtYu6_zNoh3qUXyeaGEk0&s=10',
         description: 'Smooth fade dipping naturally around the ear and nape, leaving substantial density and weight across the upper sides.'
       },
       {
@@ -58,7 +59,7 @@ const serviceCategories = {
         name: 'Mid Skin Fade',
         price: 48,
         duration: '50 min',
-        image: 'https://images.pexels.com/photos/7447151/pexels-photo-7447151.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1VLxm79LOAOKdw2Iqfrvi1R4MTp-aw1Fb8RPK5ZWpz0uf_KWdAv81xMI&s=10',
         description: 'The balanced classic. Transition starts right at temple level down to bare skin with an ultra-clean contrast.'
       },
       {
@@ -66,7 +67,7 @@ const serviceCategories = {
         name: 'High & Tight Fade',
         price: 50,
         duration: '50 min',
-        image: 'https://images.pexels.com/photos/7697644/pexels-photo-7697644.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://beardburys.com/img/cms/high-fade-hombre-beardburys.jpg',
         description: 'Crisp high transition beginning high on the temples for an athletic, ultra-clean silhouette.'
       },
       {
@@ -74,7 +75,7 @@ const serviceCategories = {
         name: 'Temple & Neck Taper Fade',
         price: 46,
         duration: '45 min',
-        image: 'https://images.pexels.com/photos/19140178/pexels-photo-19140178.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://i.pinimg.com/736x/21/d6/c8/21d6c8df5117e3857a08f90c4b8e97cb.jpg',
         description: 'Subtle fade isolated strictly to the sideburns and neckline, preserving natural full body through the sides and crown.'
       }
     ]
@@ -90,7 +91,7 @@ const serviceCategories = {
         name: 'Full Beard Sculpt & Condition',
         price: 30,
         duration: '30 min',
-        image: 'https://images.pexels.com/photos/7697316/pexels-photo-7697316.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7A0KFp3gcvTjJsQ87gU2kXgSKQlBRMx-AA8Vvc95ARg&s=10',
         description: 'Complete shape-up, clipper de-bulking, hot towel steam, cheek razor alignment, and organic cedarwood oil treatment.'
       },
       {
@@ -98,7 +99,7 @@ const serviceCategories = {
         name: 'Razor Edge Line-Up',
         price: 26,
         duration: '25 min',
-        image: 'https://images.pexels.com/photos/7697679/pexels-photo-7697679.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8XumRqQ8K_fIQCXYHr_4WNhwZ6sHXsqcMvRNcaOJyJsmkrh8N0b8JhgY&s=10',
         description: 'Sharp straight-razor detailing along cheeks and neckline with pre-shave oil and cooling post-shave tonic.'
       },
       {
@@ -106,7 +107,7 @@ const serviceCategories = {
         name: 'Short Stubble Contour',
         price: 25,
         duration: '25 min',
-        image: 'https://images.pexels.com/photos/7697668/pexels-photo-7697668.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSE4_52aORrrYwdUhOBEYIaPSP1zZN_yugxvcillzXb8e3yjnFpT5CoSo8&s=10',
         description: 'Uniform gradient trim keeping heavy stubble even and sculpted along jawline and lip lines.'
       },
       {
@@ -114,7 +115,7 @@ const serviceCategories = {
         name: 'Tapered Heavy Beard',
         price: 34,
         duration: '35 min',
-        image: 'https://images.pexels.com/photos/7697443/pexels-photo-7697443.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTXtaJkIAh9c9gxkTZLZcbrVKOhpZfBldoJsAqND4SBK-d3K2IsR5SvGyI&s=10',
         description: 'Length retention sculpt with tapered sideburn connection, mustache shaping, and deep balm hydration.'
       }
     ]
@@ -130,7 +131,7 @@ const serviceCategories = {
         name: 'Full Reset (Signature + Beard Sculpt)',
         price: 68,
         duration: '75 min',
-        image: 'https://images.pexels.com/photos/7697315/pexels-photo-7697315.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZguHgBnHP5Cm6oyewyvx2jwQ16cyv8XKzq0I3dj1hhSiRsNYdRN4qXgst&s=10',
         description: 'Our most requested service. Classic tailored haircut paired with a complete hot towel beard trim and conditioning.'
       },
       {
@@ -138,7 +139,7 @@ const serviceCategories = {
         name: 'Skin Fade + Line-Up Beard',
         price: 72,
         duration: '80 min',
-        image: 'https://images.pexels.com/photos/7697271/pexels-photo-7697271.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNgs5HBdMgpGD0YZn63kFk6O4QRsApzHkTeavnDR0_yFdZMNfOAVBrFmU&s=10',
         description: 'Seamless skin fade blended directly into a sharp razor-lined beard sculpt. Clean, sharp, top to bottom.'
       },
       {
@@ -146,7 +147,7 @@ const serviceCategories = {
         name: 'Executive Grooming Refresh',
         price: 75,
         duration: '80 min',
-        image: 'https://images.pexels.com/photos/7697211/pexels-photo-7697211.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmVp9-CaCLEDW1Ur3bqmYbLlEHA2-1JT2AcKQCVDlnLw&s=10',
         description: 'Scissor cut, facial hot towel massage, detailed beard sculpting, and premium hair styling.'
       }
     ]
@@ -162,7 +163,7 @@ const serviceCategories = {
         name: 'Little Gentleman',
         price: 28,
         duration: '30 min',
-        image: 'https://images.pexels.com/photos/7697356/pexels-photo-7697356.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBVnne_4zS3oVRLgznNNibdijw_sWxx213gOyxZK31mVRXJZCVQL0SSbcw&s=10',
         description: 'Classic side part with scissor finish, natural ear contour, and soft neck taper. Smart and comfortable.'
       },
       {
@@ -170,7 +171,7 @@ const serviceCategories = {
         name: 'Textured Mini Crop',
         price: 28,
         duration: '30 min',
-        image: 'https://images.pexels.com/photos/7697357/pexels-photo-7697357.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQr14W_wvD2NX6PJd0HZSmTyi0Y-coJf1WgVhOJgPDH0XOiSW3q0qLoXzg&s=10',
         description: 'Modern textured crop on top with a gentle low taper. Effortless school-day look with natural texture.'
       },
       {
@@ -178,7 +179,7 @@ const serviceCategories = {
         name: 'Clean Taper Fade',
         price: 30,
         duration: '35 min',
-        image: 'https://images.pexels.com/photos/7697673/pexels-photo-7697673.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8wwLPoEezTm8xPxTT2Tl-MTwIJ7wL7XzY1stfs4XAZQ&s=10',
         description: 'Crisp edges with a gentle fade at the temples and neckline, keeping natural fullness through the crown.'
       },
       {
@@ -186,7 +187,7 @@ const serviceCategories = {
         name: 'Natural Curls High-Top',
         price: 32,
         duration: '35 min',
-        image: 'https://images.pexels.com/photos/7697350/pexels-photo-7697350.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://img.latest-hairstyles.com/2026/07/08/classic-curly-high-top-fade.jpg',
         description: 'Sculpted curl silhouette with precision temple lines and hydrating curl definition.'
       },
       {
@@ -194,7 +195,7 @@ const serviceCategories = {
         name: 'First Cut Milestone',
         price: 26,
         duration: '35 min',
-        image: 'https://images.pexels.com/photos/7697401/pexels-photo-7697401.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHQjH2kMuPEAb91JM_RG0JHfTZJdnlbuwr74vVpHRPZRCxYPBCtYfF0w61&s=10',
         description: 'Extra gentle first milestone haircut for toddlers. Quiet tools, warm cape, keepsake lock envelope and lollipop.'
       }
     ]

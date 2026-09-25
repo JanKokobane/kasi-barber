@@ -130,7 +130,7 @@ svg {
   padding: 8px 0;
 }
 
-.nav-link:after {
+.nav-link::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -141,8 +141,8 @@ svg {
   transition: width .2s ease;
 }
 
-.nav-link:hover:after,
-.nav-link.active:after {
+.nav-link:hover::after,
+.nav-link.active::after {
   width: 100%;
 }
 
@@ -350,7 +350,7 @@ em {
   filter: saturate(.78);
 }
 
-.hero-image-wrap:after {
+.hero-image-wrap::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -497,7 +497,6 @@ em {
   border-color: var(--orange);
 }
 
-/* Service Styles Menu Modal */
 .service-modal-wrap,
 .kids-modal-wrap {
   width: min(100%, 1040px) !important;
@@ -529,7 +528,6 @@ em {
   line-height: 1.55;
 }
 
-/* Category Switcher Tabs */
 .category-tabs-bar {
   display: flex;
   gap: 8px;
@@ -562,7 +560,6 @@ em {
   border-color: var(--ink);
 }
 
-/* Service Studio Section & Box Containers */
 .service-studio-section {
   max-width: 1280px;
   margin: 0 auto;
@@ -577,7 +574,6 @@ em {
   box-sizing: border-box;
 }
 
-/* 2-Column Layout */
 .service-studio-layout,
 .kids-studio-layout {
   display: grid;
@@ -586,7 +582,6 @@ em {
   align-items: stretch;
 }
 
-/* Style Picture Showcase Box */
 .style-photo-card {
   background: var(--white);
   border: 1px solid var(--line);
@@ -615,7 +610,7 @@ em {
   height: 100%;
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain; /* Picture displays fully inside card without being cropped */
+  object-fit: contain;
   object-position: center;
   display: block;
   transition: opacity .25s ease, transform .35s ease;
@@ -651,7 +646,6 @@ em {
   padding: 4px 4px 0;
 }
 
-/* Styles List & Active Card */
 .styles-picker-column,
 .kids-styles-picker {
   display: flex;
@@ -702,7 +696,7 @@ em {
   height: 100%;
   max-width: 100%;
   max-height: 100%;
-  object-fit: contain; /* Displays fully inside thumbnail card */
+  object-fit: contain;
   object-position: center;
   display: block;
 }
@@ -763,7 +757,6 @@ em {
   flex-shrink: 0;
 }
 
-/* Active Style Details Panel */
 .active-style-card {
   background: var(--white);
   border: 1px solid var(--line);
@@ -814,7 +807,6 @@ em {
   border-top: 1px solid var(--line);
 }
 
-/* Styles Page Top Back Link */
 .styles-top-nav {
   max-width: 1280px;
   margin: auto;
@@ -848,7 +840,6 @@ em {
   height: 15px;
 }
 
-/* Responsive Service Studio for Tablet & Mobile */
 @media (max-width: 960px) {
   .service-studio-section {
     padding: 0 28px 60px;
@@ -984,7 +975,6 @@ em {
   }
 }
 
-/* Booking Sub-Styles Panel */
 .sub-styles-panel {
   margin-top: 20px;
   background: var(--white);
@@ -1125,13 +1115,12 @@ em {
   .style-options-grid {
     grid-template-columns: 1fr;
   }
+
   .styles-top-nav {
     padding: 20px 22px 0;
   }
 }
 
-
-/* Dedicated Kids Cuts Page Specifics */
 .kids-hero-banner {
   display: grid;
   grid-template-columns: 1.1fr 1fr;
@@ -1151,22 +1140,25 @@ em {
     grid-template-columns: 1fr;
     gap: 24px;
   }
+
   .kids-modal-wrap {
     padding: 30px 20px !important;
   }
+
   .turntable-viewport {
     height: 320px;
   }
+
   .kids-hero-banner {
     grid-template-columns: 1fr;
     padding: 40px 22px 60px;
   }
+
   .kids-values-grid {
     grid-template-columns: 1fr;
     padding: 0 22px 50px;
   }
 }
-
 
 .card-arrow {
   color: var(--orange);
@@ -1204,7 +1196,7 @@ blockquote {
 }
 
 .cta-strip {
-  padding: 90px max(40px, calc((100% - 1120px)/2));
+  padding: 90px max(40px, calc((100% - 1120px) / 2));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1312,7 +1304,7 @@ blockquote {
   margin-bottom: 30px;
 }
 
-.page-hero>p:last-child {
+.page-hero > p:last-child {
   color: var(--muted);
   max-width: 310px;
   font-size: 15px;
@@ -1445,7 +1437,7 @@ blockquote {
   margin-bottom: 10px;
 }
 
-.barber-card>p:last-child {
+.barber-card > p:last-child {
   color: var(--muted);
   max-width: 300px;
   line-height: 1.5;
@@ -1491,7 +1483,7 @@ blockquote {
   padding-top: 25px;
 }
 
-.step-heading>span {
+.step-heading > span {
   color: var(--orange);
   font-family: 'DM Mono', monospace;
   font-size: 11px;
@@ -1828,7 +1820,7 @@ blockquote {
   line-height: 1.15;
 }
 
-.contact-card>p:not(.eyebrow) {
+.contact-card > p:not(.eyebrow) {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.6;
@@ -1963,7 +1955,6 @@ blockquote {
   margin-bottom: 18px;
 }
 
-/* Email Confirmation Notice Box inside Booking Modal */
 .email-confirmation-box {
   background: var(--white);
   border: 1px solid var(--line);
@@ -2056,7 +2047,7 @@ blockquote {
   }
 }
 
-@media (max-width:800px) {
+@media (max-width: 800px) {
   .site-header {
     height: 74px;
     padding: 0 22px;
@@ -2199,7 +2190,7 @@ blockquote {
     padding: 75px 22px 55px;
   }
 
-  .page-hero>p:last-child {
+  .page-hero > p:last-child {
     margin-left: 0;
   }
 
@@ -2261,7 +2252,7 @@ blockquote {
   }
 }
 
-@media (max-width:430px) {
+@media (max-width: 430px) {
   h1 {
     font-size: 55px;
   }
@@ -2274,7 +2265,7 @@ blockquote {
     grid-template-columns: 1fr 1fr;
   }
 
-  .footer-links>div:last-child {
+  .footer-links > div:last-child {
     grid-column: span 2;
   }
 
@@ -2291,7 +2282,6 @@ blockquote {
   }
 }
 
-/* Contact Google Map Section */
 .contact-map-section {
   max-width: 1280px;
   margin: 0 auto 90px;
@@ -2343,25 +2333,29 @@ blockquote {
     padding: 0 22px;
     margin-bottom: 60px;
   }
+
   .map-container iframe {
     height: 320px;
   }
+
   .map-overlay-card {
     padding: 16px 20px;
   }
+
   .site-header {
     height: 74px;
     padding: 0 22px;
   }
+
   .site-header.scrolled {
     height: 64px;
   }
+
   .site-header.scrolled .desktop-nav {
     top: 64px;
   }
 }
 
-/* Social links with icons */
 .social-link {
   display: inline-flex;
   align-items: center;

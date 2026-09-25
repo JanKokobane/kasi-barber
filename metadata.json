@@ -1,8 +1,0 @@
-{
-  "name": "Northline Barbers",
-  "description": "Northline Barbers — considered cuts, proper service, and a chair worth returning to.",
-  "permissions": [],
-  "capabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}

@@ -1,3 +1,4 @@
+const BACKEND_URL = 'http://localhost:5000';
 
 const serviceCategories = {
   'signature': {
@@ -512,14 +513,133 @@ function initBooking() {
   els.closeModal?.addEventListener('click', () => els.modal?.classList.remove('visible'))
   els.modal?.addEventListener('click', e => { if (e.target === els.modal) els.modal.classList.remove('visible') })
 
-  els.form?.addEventListener('submit', e => {
-    e.preventDefault()
-    const formData = new FormData(els.form)
-    state.customerName = formData.get('name')
-    state.customerWhatsapp = formData.get('whatsapp')
+  els.form?.addEventListener('submit', async e => {
+
+  e.preventDefault()
+
+  const formData = new FormData(els.form)
+
+  state.customerName = String(formData.get('name') || '').trim()
+  state.customerEmail = String(formData.get('email') || '').trim()
+  state.customerWhatsapp = String(formData.get('whatsapp') || '').trim()
+
+  if (!state.customerName) {
+    alert('Please enter your name.')
+    return
+  }
+
+  if (!state.customerEmail || !state.customerEmail.includes('@')) {
+    alert('Please enter a valid email address.')
+    return
+  }
+
+  if (!state.customerWhatsapp) {
+    alert('Please enter your WhatsApp number.')
+    return
+  }
+
+  const cat = serviceCategories[state.service]
+
+  const chosen = (
+    state.chosenStyle &&
+    state.chosenStyle.categoryId === state.service
+  )
+    ? state.chosenStyle
+    : null
+
+  const displayName = chosen
+    ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}`
+    : (services[state.service]?.name || 'Signature Cut')
+
+  const duration = chosen
+    ? chosen.duration
+    : (services[state.service]?.duration || '45 min')
+
+  const price = chosen
+    ? `R${chosen.price}`
+    : `R${services[state.service]?.price || 42}`
+
+  const bookingData = {
+    customerName: state.customerName,
+    customerEmail: state.customerEmail,
+    customerWhatsapp: state.customerWhatsapp,
+    service: state.service,
+    serviceName: displayName,
+    barber: state.barber,
+    date: state.date.toISOString(),
+    dateFormatted: state.date.toLocaleDateString('en-GB', {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    }),
+    time: state.time,
+    duration,
+    price,
+    chosenStyle: chosen
+      ? {
+          id: chosen.id,
+          name: chosen.name,
+          categoryId: chosen.categoryId,
+          categoryName: chosen.categoryName
+        }
+      : null
+  }
+
+  const submitButton = els.form.querySelector('button[type="submit"]')
+
+  if (submitButton) {
+    submitButton.disabled = true
+    submitButton.textContent = 'Confirming booking...'
+  }
+
+  try {
+
+    const response = await fetch(`${BACKEND_URL}/api/bookings`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(bookingData)
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      throw new Error(
+        result.message ||
+        result.error ||
+        'Unable to complete your booking.'
+      )
+    }
+
+    state.bookingId = result.booking?.id || null
+    state.emailSent = Boolean(result.emailSent)
+    state.whatsappSent = Boolean(result.whatsappSent)
+
     els.modal?.classList.remove('visible')
+
     showConfirmation()
-  })
+
+  } catch (error) {
+
+    console.error('[Booking] Failed:', error)
+
+    alert(
+      error.message ||
+      'Something went wrong while confirming your booking. Please try again.'
+    )
+
+  } finally {
+
+    if (submitButton) {
+      submitButton.disabled = false
+      submitButton.textContent = 'Confirm Booking'
+    }
+
+  }
+
+})
 
   renderDates(els)
   syncTimes(els)

@@ -170,12 +170,25 @@
             <p class="eyebrow">ALMOST THERE</p>
             <h2 id="booking-modal-title">Where should we send<br><em>the confirmation?</em></h2>
             <p class="modal-description" data-modal-description></p>
-            <form data-booking-form><label>Full name<input name="name" required
-                        placeholder="Alex Morgan"></label><label>WhatsApp number<input name="whatsapp" required type="tel"
-                        placeholder="+27 81 234 5678"></label><button class="button button-accent full-button"
-                    type="submit">Confirm appointment <svg viewBox="0 0 24 24" aria-hidden="true">
+            <form data-booking-form>
+                <label>Full name
+                    <input name="name" required placeholder="Alex Morgan" autocomplete="name">
+                </label>
+                <label>Email address (for booking confirmation)
+                    <input name="email" required type="email" placeholder="alex@example.com" autocomplete="email">
+                </label>
+                <label>WhatsApp / Phone number
+                    <input name="whatsapp" required type="tel" placeholder="+27 81 234 5678" autocomplete="tel">
+                </label>
+                <p class="form-hint" style="font-size:11px;color:var(--muted);margin-top:-4px;margin-bottom:12px;line-height:1.4;">
+                    ✉ We'll immediately send your official appointment confirmation and calendar invite to this email.
+                </p>
+                <button class="button button-accent full-button" type="submit" data-booking-submit-btn>
+                    Confirm appointment <svg viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M5 12h13M13 6l6 6-6 6" />
-                    </svg></button></form>
+                    </svg>
+                </button>
+            </form>
         </div>
     </div>
     <script type="module" src="../js/script.js"></script>

@@ -217,17 +217,37 @@ const services = {
   'kids-cut': { name: 'Kids Cut Signature', duration: '30 min', price: 28 },
 }
 
-const times = ['9:00 AM', '10:30 AM', '12:00 PM', '1:30 PM', '3:00 PM', '4:30 PM', '5:30 PM']
+const times = ['9:00 AM', '10:30 AM', '12:00 PM', '1:30 PM', '3:00 PM', '4:30 PM', '5:00 PM']
+
+function getMinBookableDate() {
+  const now = new Date()
+  const minDate = new Date(now)
+  minDate.setHours(0, 0, 0, 0)
+  // If current time is 5:00 PM (17:00) or later, today is closed. Only the following day can be selected.
+  if (now.getHours() >= 17) {
+    minDate.setDate(minDate.getDate() + 1)
+  }
+  return minDate
+}
 
 const state = {
   service: 'signature',
   chosenStyle: null,
   barber: 'No preference',
-  date: new Date(Date.now() + 86400000),
-  time: '3:00 PM',
+  date: getMinBookableDate(),
+  time: '12:00 PM',
 }
 
 const page = document.body.dataset.page
+
+const siteHeader = document.querySelector('.site-header')
+if (siteHeader) {
+  const handleScroll = () => {
+    siteHeader.classList.toggle('scrolled', window.scrollY > 20)
+  }
+  window.addEventListener('scroll', handleScroll, { passive: true })
+  handleScroll()
+}
 
 document.querySelector('.menu-button')?.addEventListener('click', () => {
   const nav = document.querySelector('.desktop-nav')
@@ -379,13 +399,24 @@ function setupServiceStudio(studio) {
     renderActiveStyle()
   }
 
+  function scrollToStudio() {
+    const target = studio.closest('section') || studio
+    setTimeout(() => {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 120)
+  }
+
   studio._openCategory = (catId) => {
     setCategory(catId || 'signature')
+    scrollToStudio()
   }
 
   // Check URL param if page loaded with category
   const urlCat = new URLSearchParams(window.location.search).get('category')
   setCategory(urlCat && serviceCategories[urlCat] ? urlCat : 'signature')
+
+  // Auto-scroll to studio section
+  scrollToStudio()
 }
 
 function initBooking() {
@@ -399,12 +430,15 @@ function initBooking() {
     state.service = styleObj.categoryId
   } else if (serviceParam && serviceCategories[serviceParam]) {
     state.service = serviceParam
-    const cat = serviceCategories[serviceParam]
-    state.chosenStyle = { ...cat.styles[0], categoryId: cat.id, categoryName: cat.name }
+    state.chosenStyle = null
   } else {
     state.service = 'signature'
-    const cat = serviceCategories['signature']
-    state.chosenStyle = { ...cat.styles[0], categoryId: cat.id, categoryName: cat.name }
+    state.chosenStyle = null
+  }
+
+  const minDate = getMinBookableDate()
+  if (state.date < minDate) {
+    state.date = new Date(minDate)
   }
 
   const els = {
@@ -425,74 +459,24 @@ function initBooking() {
     modalDescription: document.querySelector('[data-modal-description]'),
     closeModal: document.querySelector('[data-close-modal]'),
     form: document.querySelector('[data-booking-form]'),
-    subStylesPanel: document.querySelector('[data-sub-styles-panel]'),
-    subStylesGrid: document.querySelector('[data-style-options-grid]'),
-    subStylesEyebrow: document.querySelector('[data-sub-styles-eyebrow]'),
-    subStylesGalleryLink: document.querySelector('[data-sub-styles-gallery-link]'),
   }
 
-  function renderSubStyles() {
-    if (!els.subStylesPanel || !els.subStylesGrid) return
-    const cat = serviceCategories[state.service]
-    if (!cat) return
+  els.serviceOptions.forEach(btn => btn.addEventListener('click', (e) => {
+    // If user clicked the "View styles →" link inside the card, allow navigation to styles page
+    if (e.target.closest('.service-tag')) return
 
-    if (els.subStylesEyebrow) {
-      els.subStylesEyebrow.textContent = `${cat.name.toUpperCase()} STYLES · SELECT YOUR VARIATION`
-    }
-
-    if (els.subStylesGalleryLink) {
-      els.subStylesGalleryLink.href = `./service-styles.html?category=${cat.id}`
-    }
-
-    if (!state.chosenStyle || state.chosenStyle.categoryId !== cat.id) {
-      state.chosenStyle = { ...cat.styles[0], categoryId: cat.id, categoryName: cat.name }
-    }
-
-    els.subStylesGrid.innerHTML = cat.styles.map(style => {
-      const isSelected = state.chosenStyle && state.chosenStyle.id === style.id
-      return `
-        <button type="button" class="sub-style-card ${isSelected ? 'selected' : ''}" data-style-id="${style.id}">
-          <div class="sub-style-body">
-            <div class="sub-style-header">
-              <strong>${style.name}</strong>
-              <b>R${style.price}</b>
-            </div>
-            <div class="sub-style-meta-line">
-              <span class="sub-style-duration">${style.duration}</span>
-              ${isSelected ? '<span class="sub-style-badge">Selected</span>' : ''}
-            </div>
-            <small>${style.description}</small>
-          </div>
-        </button>
-      `
-    }).join('')
-
-    els.subStylesGrid.querySelectorAll('[data-style-id]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const styleId = btn.dataset.styleId
-        const found = cat.styles.find(s => s.id === styleId)
-        if (found) {
-          state.chosenStyle = { ...found, categoryId: cat.id, categoryName: cat.name }
-          renderSubStyles()
-          syncUI(els)
-        }
-      })
-    })
-  }
-
-  els.serviceOptions.forEach(btn => btn.addEventListener('click', () => {
     const newService = btn.dataset.service
     if (serviceCategories[newService]) {
       state.service = newService
-      const cat = serviceCategories[newService]
-      state.chosenStyle = { ...cat.styles[0], categoryId: cat.id, categoryName: cat.name }
-      renderSubStyles()
+      state.chosenStyle = null
       syncUI(els)
     }
   }))
 
   els.timeOptions.forEach(btn => btn.addEventListener('click', () => {
+    if (btn.disabled) return
     state.time = btn.dataset.time
+    syncTimes(els)
     syncUI(els)
   }))
 
@@ -502,20 +486,29 @@ function initBooking() {
   }))
 
   els.dateArrows.forEach(btn => btn.addEventListener('click', () => {
-    state.date.setDate(state.date.getDate() + Number(btn.dataset.dateMove))
+    const move = Number(btn.dataset.dateMove)
+    const targetDate = new Date(state.date)
+    targetDate.setDate(targetDate.getDate() + move)
+    const currentMin = getMinBookableDate()
+    if (targetDate < currentMin) return
+
+    state.date = targetDate
     renderDates(els)
+    syncTimes(els)
     syncUI(els)
   }))
 
   els.continueBtn?.addEventListener('click', () => {
     const cat = serviceCategories[state.service]
-    const chosen = state.chosenStyle || (cat ? cat.styles[0] : null)
-    const displayName = chosen ? `${cat.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
-    els.modalDescription.textContent = `We will hold your spot for ${displayName} on ${state.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at ${state.time}.`
-    els.modal.classList.add('visible')
+    const chosen = (state.chosenStyle && state.chosenStyle.categoryId === state.service) ? state.chosenStyle : null
+    const displayName = chosen ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
+    if (els.modalDescription) {
+      els.modalDescription.textContent = `We will hold your spot for ${displayName} on ${state.date.toLocaleDateString('en-US', { month: 'long', day: 'numeric' })} at ${state.time}.`
+    }
+    els.modal?.classList.add('visible')
   })
 
-  els.closeModal?.addEventListener('click', () => els.modal.classList.remove('visible'))
+  els.closeModal?.addEventListener('click', () => els.modal?.classList.remove('visible'))
   els.modal?.addEventListener('click', e => { if (e.target === els.modal) els.modal.classList.remove('visible') })
 
   els.form?.addEventListener('submit', e => {
@@ -523,53 +516,143 @@ function initBooking() {
     const formData = new FormData(els.form)
     state.customerName = formData.get('name')
     state.customerWhatsapp = formData.get('whatsapp')
-    els.modal.classList.remove('visible')
+    els.modal?.classList.remove('visible')
     showConfirmation()
   })
 
   renderDates(els)
-  renderSubStyles()
+  syncTimes(els)
   syncUI(els)
+}
+
+function syncTimes(els) {
+  if (!els.timeOptions) return
+  const now = new Date()
+  const isToday = state.date.toDateString() === now.toDateString()
+  let firstAvailableTime = null
+
+  els.timeOptions.forEach(btn => {
+    const timeStr = btn.dataset.time
+    const [timePart, meridiem] = timeStr.split(' ')
+    const [h, m] = timePart.split(':').map(Number)
+    const hour24 = (h % 12) + (meridiem === 'PM' ? 12 : 0)
+
+    // Cannot be before 9:00 AM or after 5:00 PM (17:00)
+    const isBefore9 = hour24 < 9
+    const isAfter5 = hour24 > 17 || (hour24 === 17 && m > 0)
+    let isPast = false
+
+    if (isToday) {
+      const slotTime = new Date(state.date)
+      slotTime.setHours(hour24, m, 0, 0)
+      if (slotTime <= now) {
+        isPast = true
+      }
+    }
+
+    const disabled = isBefore9 || isAfter5 || isPast
+    btn.disabled = disabled
+    btn.classList.toggle('disabled', disabled)
+
+    if (!disabled && !firstAvailableTime) {
+      firstAvailableTime = timeStr
+    }
+  })
+
+  // If current selected time is disabled, switch to first available time
+  const currentBtn = Array.from(els.timeOptions).find(b => b.dataset.time === state.time)
+  if (!currentBtn || currentBtn.disabled) {
+    if (firstAvailableTime) {
+      state.time = firstAvailableTime
+    }
+  }
+
+  els.timeOptions.forEach(btn => {
+    btn.classList.toggle('selected', btn.dataset.time === state.time && !btn.disabled)
+  })
 }
 
 function renderDates(els) {
   if (!els.dateOptions) return
   els.dateOptions.replaceChildren()
-  for (let i = -2; i <= 2; i++) {
-    const d = new Date(state.date)
-    d.setDate(state.date.getDate() + i)
+  const minDate = getMinBookableDate()
+
+  if (state.date < minDate) {
+    state.date = new Date(minDate)
+  }
+
+  // Calculate 5-day window starting from minDate or around state.date
+  let startDate = new Date(state.date)
+  startDate.setDate(startDate.getDate() - 2)
+  if (startDate < minDate) {
+    startDate = new Date(minDate)
+  }
+
+  for (let i = 0; i < 5; i++) {
+    const d = new Date(startDate)
+    d.setDate(startDate.getDate() + i)
+    const isPast = d < minDate
+    const isSelected = d.toDateString() === state.date.toDateString()
+
     const btn = document.createElement('button')
-    btn.className = 'date-option' + (d.toDateString() === state.date.toDateString() ? ' selected' : '')
+    btn.type = 'button'
+    btn.className = 'date-option' + (isSelected ? ' selected' : '') + (isPast ? ' disabled' : '')
     btn.dataset.date = d.toISOString()
+    btn.disabled = isPast
+
     const dayLabel = document.createElement('small')
-    dayLabel.textContent = d.toLocaleDateString('en-US', { weekday: 'short' })
+    const now = new Date()
+    now.setHours(0, 0, 0, 0)
+    if (d.toDateString() === now.toDateString()) {
+      dayLabel.textContent = 'Today'
+    } else {
+      dayLabel.textContent = d.toLocaleDateString('en-US', { weekday: 'short' })
+    }
+
     const dayNum = document.createElement('strong')
     dayNum.textContent = d.getDate()
     btn.append(dayLabel, dayNum)
+
     btn.addEventListener('click', () => {
+      if (btn.disabled) return
       state.date = new Date(btn.dataset.date)
       renderDates(els)
+      syncTimes(els)
       syncUI(els)
     })
     els.dateOptions.appendChild(btn)
   }
+
+  // Update previous day arrow state
+  const prevDate = new Date(state.date)
+  prevDate.setDate(prevDate.getDate() - 1)
+  els.dateArrows.forEach(btn => {
+    if (btn.dataset.dateMove === '-1') {
+      const canGoBack = prevDate >= minDate
+      btn.disabled = !canGoBack
+      btn.setAttribute('aria-disabled', String(!canGoBack))
+    }
+  })
 }
 
 function syncUI(els) {
   const cat = serviceCategories[state.service]
-  const chosen = state.chosenStyle || (cat ? cat.styles[0] : null)
+  const chosen = (state.chosenStyle && state.chosenStyle.categoryId === state.service) ? state.chosenStyle : null
 
-  const displayName = chosen ? `${cat.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
+  const displayName = chosen ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
   const displayDuration = chosen ? chosen.duration : (services[state.service]?.duration || '45 min')
   const displayPrice = chosen ? `R${chosen.price}` : `R${services[state.service]?.price || 42}`
-  const buttonLabel = chosen ? `${chosen.name} (${displayPrice})` : displayName
+  const buttonLabel = chosen ? `${chosen.name} (${displayPrice})` : `${services[state.service]?.name || 'Signature Cut'} (${displayPrice})`
 
-  els.serviceOptions.forEach(btn => btn.classList.toggle('selected', btn.dataset.service === state.service))
+  els.serviceOptions.forEach(btn => {
+    const isSelected = btn.dataset.service === state.service
+    btn.classList.toggle('selected', isSelected)
+  })
+
   els.barberOptions.forEach(btn => {
     const label = btn.dataset.barber === 'any' ? 'No preference' : btn.dataset.barber
     btn.classList.toggle('selected', label === state.barber)
   })
-  els.timeOptions.forEach(btn => btn.classList.toggle('selected', btn.dataset.time === state.time))
 
   if (els.continueService) els.continueService.textContent = buttonLabel
   if (els.summaryService) els.summaryService.textContent = displayName
@@ -582,13 +665,13 @@ function syncUI(els) {
 
 function showConfirmation() {
   const cat = serviceCategories[state.service]
-  const chosen = state.chosenStyle || (cat ? cat.styles[0] : null)
-  const displayName = chosen ? `${cat.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
+  const chosen = (state.chosenStyle && state.chosenStyle.categoryId === state.service) ? state.chosenStyle : null
+  const displayName = chosen ? `${cat ? cat.name : services[state.service]?.name} — ${chosen.name}` : (services[state.service]?.name || 'Signature Cut')
   const durationMin = chosen ? parseInt(chosen.duration, 10) : parseInt(services[state.service]?.duration || '45', 10)
   const start = parseStartTime(state.date, state.time)
   const end = new Date(start.getTime() + durationMin * 60000)
 
-  const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Northline Barbers — ' + displayName)}&dates=${fmtCal(start)}/${fmtCal(end)}&details=${encodeURIComponent('Booking for ' + state.customerName + ' (' + state.customerWhatsapp + '). Barber: ' + state.barber + '. Your appointment at Northline Barbers. See you in the chair.')}&location=${encodeURIComponent('14 Northline Road, Easton, NY 10012')}`
+  const googleUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Northline Barbers — ' + displayName)}&dates=${fmtCal(start)}/${fmtCal(end)}&details=${encodeURIComponent('Booking for ' + state.customerName + ' (' + state.customerWhatsapp + '). Barber: ' + state.barber + '. Your appointment at Northline Barbers. See you in the chair.')}&location=${encodeURIComponent('14 Lynnwood Road, Brooklyn, Pretoria 0181')}`
 
   const backdrop = document.createElement('div')
   backdrop.className = 'modal-backdrop visible'
@@ -644,7 +727,7 @@ function showConfirmation() {
   document.body.appendChild(backdrop)
 
   icsButton.addEventListener('click', () => {
-    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${fmtCal(start)}\nDTEND:${fmtCal(end)}\nSUMMARY:Northline Barbers — ${displayName}\nLOCATION:14 Northline Road, Easton, NY 10012\nDESCRIPTION:Booking for ${state.customerName} (${state.customerWhatsapp}). Barber: ${state.barber}\nEND:VEVENT\nEND:VCALENDAR`
+    const ics = `BEGIN:VCALENDAR\nVERSION:2.0\nBEGIN:VEVENT\nDTSTART:${fmtCal(start)}\nDTEND:${fmtCal(end)}\nSUMMARY:Northline Barbers — ${displayName}\nLOCATION:14 Lynnwood Road, Brooklyn, Pretoria 0181\nDESCRIPTION:Booking for ${state.customerName} (${state.customerWhatsapp}). Barber: ${state.barber}\nEND:VEVENT\nEND:VCALENDAR`
     const link = document.createElement('a')
     link.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }))
     link.download = 'northline-appointment.ics'

@@ -63,27 +63,57 @@
                         <h2>What are we doing?</h2>
                     </div>
                 </div>
-                <div class="service-options"><button class="service-option"
-                        data-service="signature"><span><strong>Signature Cut</strong><small>Consultation, clipper or scissor cut, hot towel finish.</small></span></button><button
-                        class="service-option" data-service="skin-fade"><span><strong>Skin Fade</strong><small>A tight, seamless fade with a clean finish.</small></span></button><button
-                        class="service-option" data-service="beard"><span><strong>Beard Sculpt</strong><small>Shape, line-up, trim and conditioning treatment.</small></span></button><button
-                        class="service-option" data-service="cut-beard"><span><strong>Cut + Beard</strong><small>The complete Northline reset, top to bottom.</small></span></button><button
-                        class="service-option" data-service="kids-cut"><span><strong>Kids Cut Signature</strong><small>For under-12s. A patient, gentle cut with a lollipop finish.</small></span></button></div>
-                <!-- Interactive Sub-Styles Section -->
-                <div class="sub-styles-panel" data-sub-styles-panel>
-                    <div class="sub-styles-heading">
-                        <div>
-                            <p class="eyebrow" data-sub-styles-eyebrow>SIGNATURE CUT STYLES · SELECT YOUR VARIATION</p>
-                            <small class="sub-styles-hint">Select a style below to customize your appointment</small>
+                <div class="service-options">
+                    <div class="service-option selected" data-service="signature">
+                        <div class="service-option-content">
+                            <strong>Signature Cut</strong>
+                            <small>Consultation, clipper or scissor cut, hot towel finish.</small>
                         </div>
-                        <a href="./service-styles.html" class="browse-more-link" data-sub-styles-gallery-link>
-                            <span>Browse full gallery</span>
-                            <svg viewBox="0 0 24 24" aria-hidden="true" style="width:13px;height:13px;display:inline-block;vertical-align:middle;">
-                                <path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </a>
+                        <div class="service-option-actions">
+                            <span class="service-price">R42</span>
+                            <a href="./service-styles.html?category=signature#service-studio" class="service-tag">View styles →</a>
+                        </div>
                     </div>
-                    <div class="style-options-grid" data-style-options-grid></div>
+                    <div class="service-option" data-service="skin-fade">
+                        <div class="service-option-content">
+                            <strong>Skin Fade</strong>
+                            <small>A tight, seamless fade with a clean finish.</small>
+                        </div>
+                        <div class="service-option-actions">
+                            <span class="service-price">R48</span>
+                            <a href="./service-styles.html?category=skin-fade#service-studio" class="service-tag">View styles →</a>
+                        </div>
+                    </div>
+                    <div class="service-option" data-service="beard">
+                        <div class="service-option-content">
+                            <strong>Beard Sculpt</strong>
+                            <small>Shape, line-up, trim and conditioning treatment.</small>
+                        </div>
+                        <div class="service-option-actions">
+                            <span class="service-price">R30</span>
+                            <a href="./service-styles.html?category=beard#service-studio" class="service-tag">View styles →</a>
+                        </div>
+                    </div>
+                    <div class="service-option" data-service="cut-beard">
+                        <div class="service-option-content">
+                            <strong>Cut + Beard</strong>
+                            <small>The complete Northline reset, top to bottom.</small>
+                        </div>
+                        <div class="service-option-actions">
+                            <span class="service-price">R68</span>
+                            <a href="./service-styles.html?category=cut-beard#service-studio" class="service-tag">View styles →</a>
+                        </div>
+                    </div>
+                    <div class="service-option" data-service="kids-cut">
+                        <div class="service-option-content">
+                            <strong>Kids Cut Signature</strong>
+                            <small>For under-12s. A patient, gentle cut with a lollipop finish.</small>
+                        </div>
+                        <div class="service-option-actions">
+                            <span class="service-price">R28</span>
+                            <a href="./service-styles.html?category=kids-cut#service-studio" class="service-tag">View styles →</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="step-heading second-step"><span>02</span>
                     <div>
@@ -111,7 +141,7 @@
                         data-time="12:00 PM">12:00 PM</button><button class="time-option" data-time="1:30 PM">1:30
                         PM</button><button class="time-option" data-time="3:00 PM">3:00 PM</button><button
                         class="time-option" data-time="4:30 PM">4:30 PM</button><button class="time-option"
-                        data-time="5:30 PM">5:30 PM</button></div><button class="button button-accent full-button"
+                        data-time="5:00 PM">5:00 PM</button></div><button class="button button-accent full-button"
                     data-open-details>Continue with <span data-continue-service>Signature Cut</span> <svg
                         viewBox="0 0 24 24" aria-hidden="true">
                         <path d="M5 12h13M13 6l6 6-6 6" />
@@ -142,15 +172,35 @@
                 </div>
                 <div>
                     <p class="eyebrow">Find us</p>
-                    <p>14 Northline Road<br>Easton, NY 10012</p><a href="./contact.html">Get directions →</a>
+                    <p>14 Lynnwood Road<br>Brooklyn, Pretoria 0181</p><a href="./contact.html">Get directions →</a>
                 </div>
                 <div>
                     <p class="eyebrow">Opening hours</p>
                     <p>Tue–Fri · 9:00–19:00<br>Sat · 9:00–16:00<br>Sun–Mon · Closed</p>
                 </div>
-                <div>
-                    <p class="eyebrow">Follow along</p><a href="./contact.html">Instagram</a><a
-                        href="mailto:hello@northline.barber">hello@northline.barber</a>
+                <div class="footer-social-column">
+                    <p class="eyebrow">Follow along</p>
+                    <a href="https://instagram.com" target="_blank" rel="noreferrer" class="social-link">
+                        <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <rect width="20" height="20" x="2" y="2" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Instagram
+                    </a>
+                    <a href="mailto:hello@northline.barber" class="social-link">
+                        <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <rect width="20" height="16" x="2" y="4" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        hello@northline.barber
+                    </a>
+                    <a href="https://wa.me/27123456789" target="_blank" rel="noreferrer" class="social-link">
+                        <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        WhatsApp
+                    </a>
                 </div>
             </div>
         </div>

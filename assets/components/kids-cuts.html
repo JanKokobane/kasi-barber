@@ -42,16 +42,6 @@
     </header>
 
     <main>
-        <!-- Back Button to Services -->
-        <div class="styles-top-nav">
-            <a class="back-link-btn" href="./services.html">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                    <path d="M19 12H5M12 19l-7-7 7-7" />
-                </svg>
-                Back to services
-            </a>
-        </div>
-
         <section class="page-hero">
             <p class="eyebrow" data-menu-eyebrow>EXPLORE THE MENU</p>
             <h1 data-menu-heading>Choose your<br><em>style.</em></h1>
@@ -59,7 +49,7 @@
         </section>
 
         <!-- Studio & Styles Selector -->
-        <section style="max-width:1280px;margin:auto;padding:0 40px 80px;">
+        <section id="service-studio" class="service-studio-section" style="max-width:1280px;margin:auto;padding:0 40px 80px;">
             <div data-service-studio style="background:var(--paper);padding:36px;">
                 <!-- 2-Column: Photo Frame on Left, Styles Picker on Right -->
                 <div class="service-studio-layout">
@@ -75,7 +65,15 @@
                     </div>
 
                     <div class="styles-picker-column">
-                        <p class="eyebrow">CHOOSE A STYLE</p>
+                        <div class="choose-style-header">
+                            <p class="eyebrow">CHOOSE A STYLE</p>
+                            <a class="back-link-btn" href="./services.html">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                                </svg>
+                                Back to services
+                            </a>
+                        </div>
                         <div class="styles-nav-list" data-styles-nav></div>
                         <div class="active-style-card" data-active-style-card></div>
                     </div>
@@ -118,17 +116,36 @@
                 </div>
                 <div>
                     <p class="eyebrow">Find us</p>
-                    <p>14 Northline Road<br>Easton, NY 10012</p>
+                    <p>14 Lynnwood Road<br>Brooklyn, Pretoria 0181</p>
                     <a href="./contact.html">Get directions →</a>
                 </div>
                 <div>
                     <p class="eyebrow">Opening hours</p>
                     <p>Tue–Fri · 9:00–19:00<br>Sat · 9:00–16:00<br>Sun–Mon · Closed</p>
                 </div>
-                <div>
+                <div class="footer-social-column">
                     <p class="eyebrow">Follow along</p>
-                    <a href="./contact.html">Instagram</a>
-                    <a href="mailto:hello@northline.barber">hello@northline.barber</a>
+                    <a href="https://instagram.com" target="_blank" rel="noreferrer" class="social-link">
+                        <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <rect width="20" height="20" x="2" y="2" rx="5" ry="5" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        Instagram
+                    </a>
+                    <a href="mailto:hello@northline.barber" class="social-link">
+                        <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <rect width="20" height="16" x="2" y="4" rx="2" fill="none" stroke="currentColor" stroke-width="2"/>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" fill="none" stroke="currentColor" stroke-width="2"/>
+                        </svg>
+                        hello@northline.barber
+                    </a>
+                    <a href="https://wa.me/27123456789" target="_blank" rel="noreferrer" class="social-link">
+                        <svg class="social-icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        WhatsApp
+                    </a>
                 </div>
             </div>
         </div>

@@ -1290,12 +1290,10 @@ blockquote {
 }
 
 .booking-shell {
-  max-width: 1120px;
+  max-width: 860px;
   margin: 0 auto 120px;
   padding: 0 40px;
-  display: grid;
-  grid-template-columns: 1fr 310px;
-  gap: 70px;
+  display: block;
 }
 
 .step-heading {
@@ -1564,11 +1562,22 @@ blockquote {
 }
 
 .booking-summary {
-  align-self: start;
+  width: 310px;
+  max-width: 100%;
   background: var(--white);
+  border: 1px solid var(--line);
   padding: 32px;
-  position: sticky;
-  top: 20px;
+  box-sizing: border-box;
+}
+
+.make-change-style-btn {
+  margin-top: 22px;
+  width: 100%;
+  font-family: inherit;
+  font-size: 12px;
+  letter-spacing: .02em;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .booking-summary .eyebrow {

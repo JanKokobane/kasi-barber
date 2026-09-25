@@ -10,7 +10,7 @@ const serviceCategories = {
         name: 'Classic Gentleman Cut',
         price: 42,
         duration: '45 min',
-        image: 'https://images.pexels.com/photos/1813272/pexels-photo-1813272.jpeg?auto=compress&cs=tinysrgb&w=1000',
+        image: 'https://menshaircuts.com/wp-content/uploads/2023/04/black-men-haircuts-guide-undercut-short-rounded.jpg',
         description: 'Timeless scissor and clipper cut, natural side parting, tapered neck, finished with a warm hot towel and organic styling balm.'
       },
       {
